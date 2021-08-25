@@ -22,18 +22,10 @@ def plots_that_advanced(x, y, y_err, fitfunc, legend_position):
     # insert the legenda (it's not mandatory)
     text1 = input("Write there the experimental values legenda, if you don't want to add any legend, print none: ")
     # note: the user cannot use as a legenda the string "none"
-    if text1 != "none":
-        plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, label = text1, capsize = 3, linewidth = 1)
-        j = 1
-    else:
-        plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, capsize = 3, linewidth = 1)
+    plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, label = text1, capsize = 3, linewidth = 1)
     text2 = input("Write there the fitting function legenda, if you don't want to add any legend, print none: ")
-    if text1 != "none":
-        plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4, label = text2)
-        k = 1
-    else:
-        plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4)
-    if k == 1 and j ==1:
+    plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4, label = text2)
+    if text1 != "none" and text2 != "none":
         plt.legend(loc=legend_position) #
     title = input("Insert there the title of the plot, print none if you don't want any title: ")
     if title != "none":
