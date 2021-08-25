@@ -7,6 +7,7 @@ Created on Tue Aug 24 18:22:17 2021
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.axes as ax
 
 def plots_that_advanced(x, y, y_err, fitfunc, legend_position):
     # legend_position can be "upper right", "upper left", "lower left", 
@@ -14,6 +15,7 @@ def plots_that_advanced(x, y, y_err, fitfunc, legend_position):
 	# "upper center", "center"
     plt.figure(dpi=1200) #better resolution
     plt.clf()
+    whichplot = input("Print lin if you want a linear scale, log if you want a log log scale. If you want a semi-log scale print linlog (xlin, ylog) o loglin(xlog, ylin)")
     plt.subplot(1, 1, 1) #specific type of plot design
     label1 = input("Write there the x axis label: ") # set the x axis label
     lebel2 = input("Write there the y axis label: ") # set the y axis label
@@ -22,15 +24,30 @@ def plots_that_advanced(x, y, y_err, fitfunc, legend_position):
     # insert the legenda (it's not mandatory)
     text1 = input("Write there the experimental values legenda, if you don't want to add any legend, print none: ")
     # note: the user cannot use as a legenda the string "none"
-    plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, label = text1, capsize = 3, linewidth = 1)
     text2 = input("Write there the fitting function legenda, if you don't want to add any legend, print none: ")
-    plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4, label = text2)
+    title = input("Insert there the title of the plot, print none if you don't want any title: ")
     if text1 != "none" and text2 != "none":
         plt.legend(loc=legend_position) #
-    title = input("Insert there the title of the plot, print none if you don't want any title: ")
-    if title != "none":
-        plt.title(title) # title
-    grid_var = input("Do you want to set a grid? (y/n)")
+    grid_var = input("Press y if you want to set a grid. Otherwise, press anything else.")
     if grid_var == "y":
         plt.grid(True)
-    plt.show()
+    if title != "none":
+        plt.title(title) # title
+    capvar = input("Do you want that the uncertainty bars have a cap? [y/n]")
+    if capvar == "y":
+        plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, label = text1, capsize = 3, linewidth = 1)
+    if capvar == "n":
+        plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, label = text1, linewidth = 1)
+    if whichplot == "lin":
+        plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4, label = text2)
+        plt.show()
+    if whichplot == "log":
+        plt.loglog(x, fitfunc, "-b") #, linewidth = 2, markersize = 4, label = text2)
+        #ax.Axes.set_xscale('log', base = 10)
+        #ax.Axes.set_xscale("log", base = 10)
+        plt.show()
+    if whichplot == "linlog":
+        plt.semilogx(x, fitfunc, "-b")
+    if whichplot == "loglin":
+        plt.semilogy(x, fitfunc, "-b")
+        
