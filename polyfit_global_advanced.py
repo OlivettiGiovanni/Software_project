@@ -18,3 +18,21 @@ def polyfit_global_advanced(file_path, header1, header2, header3, degree, x0):
     fitfunc = info[0]
     plots_that_advanced(x, y, y_err, fitfunc)
     return info
+
+# Inputs:
+# the six inputs have to be strings that identify:
+# file_path: the name of the file (specifing also its extension, that has to be .csv) 
+# header1,2,3: the precise headline of, respectively, indipedent variable, 
+# dipendent variable, uncertainties on the indipendent variable
+# degree: degree chosen to build the polynomial used to fit our data.
+# X0: array of values which corresponds to the starting values used to estimate
+
+#Outputs:
+#Outputs
+# info[0] = y values of thefitting curve computed in the
+# indipendent variable values
+# info[1] = parameters that describe the polynomial
+# which fits the experimental datas
+# info[2] = errors assigned to each parameter 
+# +
+# plots the data in the desired way
