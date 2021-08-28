@@ -19,7 +19,7 @@ Created on Tue Aug 24 10:10:30 2021
 import numpy as np
 import scipy.optimize
 import scipy as sp
-import matplotlib.pyplot as plt
+
 
 def polyfit_data_advanced_v2(x_variable, y_variable, y_err, degree, x0): 
     # depending on the selected degree a generic polynomial function will be generated
@@ -27,22 +27,17 @@ def polyfit_data_advanced_v2(x_variable, y_variable, y_err, degree, x0):
     # ad the fitting function
     if degree == 1:
         fitfunc = lambda p, x: p[0] + p[1]*x
-        domain = [0,1]
     if degree == 2:
         fitfunc = lambda p, x: p[0] + p[1]*x + p[2]*x**2
-        domain = [0,1,2]
     if degree == 3:
         fitfunc = lambda p, x: p[0] + p[1]*x + p[2]*x**2 + p[3]*x**3
-        domain = [0,1,2,3]
     if degree == 4:
         fitfunc = lambda p, x: p[0] + p[1]*x + p[2]*x**2 + p[3]*x**3 + p[4]*x**4
-        domain = [0,1,2,3,4]
     if degree == 5:
         fitfunc = lambda p, x: p[0] + p[1]*x + p[2]*x**2 + p[3]*x**3 + p[4]*x**4 + p[5]*x**5
-        domain = [0,1,2,3,4,5]
     if degree == 6:
         fitfunc = lambda p, x: p[0] + p[1]*x + p[2]*x**2 + p[3]*x**3 + p[4]*x**4 + p[5]*x**5 + p[6]*x**6
-        domain = [0,1,2,3,4,5,6]
+    domain = list(range(degree+1))
     # the error_function weights the difference between the fitting function and
     # the experimental data with the experimental uncertainties assigned to y values
     errfunc = lambda p, x, y, err: (y - fitfunc(p,x)) / err
@@ -52,7 +47,6 @@ def polyfit_data_advanced_v2(x_variable, y_variable, y_err, degree, x0):
     # element contains info about the errors on the estimate of these parameters.
     out = sp.optimize.leastsq(errfunc, x0,
                        args=(x_variable, y_variable, y_err), full_output=1)
-    
     par = out[0][::-1]
     covar = out[1] 
     errors = np.zeros(degree+1)
@@ -94,11 +88,14 @@ def polyfit_data_advanced_v2(x_variable, y_variable, y_err, degree, x0):
 # Dà errore se uno dei valori delle incertezze è zero (situazione non molto
 # coerente con un esperimento...), se si ritiene l'incertezza su tale valore 
 # molto bassa, è sufficiente sostituirla con un valore molto basso (almeno 
-# ordine di grandezza in meno delle altre incertezze)
+# ordine di grandezza in meno delle altre incertezze). La funzione 
+# array_preparation_advanced_v2 sistema questo problema. 
 
-# possibile risoluzione
-minerr = min(y_err)
-for err in y_err:
-    if err == 0:
-        err = minerr / 100
+# Cerca di capire quanto gli errori stimati tramite il calcolo mostrato
+# siano effettivamente adeguati.... non sembra dall'esempio di exp_meas.csv
+# Più che altro sembrano essere veramente molto alti... se l'incertezza relativa
+# è di circa il 2%, i parametri hanno una incertezza grande quanto il loro 
+# stesso valore
+
+
 
