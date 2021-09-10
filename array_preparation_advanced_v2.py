@@ -15,6 +15,12 @@ import numpy as np
 # compared to the average of the uncertainty. 
 # If all the uncertainties are zero... it returns an error
 
+# UN'ALTRA QUESTIONE DI CUI DOVREI TENERE CONTO è IL SEGNO DELLE INCERTEZZE,
+# HANNO SENSO INCERTEZZE NEGATIVE?? fORSE POTREI CORREGGERE IL CODICE IN MODO
+# DA CONSIDERARE SEMPRE IL MODULO.... IN VERITà, POICHè L'INCERTEZZA NEGATIVA 
+# NON HA SENSO FISICO FORSE SAREBBE MEGLIO CHE LA FUNZIONE MOSTRASSE UN ERRORE
+# INVECE CHE CORREGGERE AUTOMATICAMENTE IL DATO....
+
 
 # Inputs:
 # the four inputs have to be strings that identify:
@@ -39,4 +45,10 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
             y_err[i] = meanerr / 100
     x = table[header1]
     y = table[header2]
-    return x,y,y_err
+    #lets rebuild a dataframe in order to return it as an output
+    x_series = pd.Series(x)
+    y_series = pd.Series(y)
+    y_err_series = pd.Series(y_err)
+    frame = {"col1": x_series, "col2":y_series, "col3":y_err_series}
+    result = pd.DataFrame(frame)
+    return result
