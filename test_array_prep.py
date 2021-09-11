@@ -73,13 +73,13 @@ def test_array_prep_output_par(data_numb):
     # if this element is the boolean variable True, the test is passed
     assert ausilio2 == {True} #-----> SE USO ASSERT IN QUESTO MODO MI Dà ERRORE
     #bol = (ausilio2 == {True})
-    #assert bol, "mannaggia la miseria" #----> SE USO ASSERT IN QUESTO MODO IL TEST PASSA CON UN WARNING
+    #assert bol, "mannaggia la miseria" #----> MI DA UGUALMENTE ERRORE
     #if ausilio2 == {True}:
     #    pass   ----> SE USO PASS IL TEST PASSA SENZA PROBLEMI
     
 data_number = 10
 @given(list1 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, allow_infinity=False, allow_nan = False, exclude_min = True), min_size = 15, max_size = 15))
-# le variabili selezionate da hypothesis.strategy sono sottoposte ai seguenti
+# le variabili selezionate da hypothesis.strategy sono sseottoposte ai seguenti
 # constrains: limitato il loro valore, crea problemi con numeri estremamente bassi
 # (5e-323), con +-inf e con nan, dunque ho limitato i valori del dominio senza
 # perdita di generalità. I vettori di input dovrebbero infatti essere valori finiti
