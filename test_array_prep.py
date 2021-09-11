@@ -39,8 +39,9 @@ def test_array_prep_output():
     # whose element is the shared one!
     ausilio2 = set(ausilio1)
     # if this element is the boolean variable True, the test is passed
-    if ausilio2 == {True}:
-        return True
+    assert ausilio2 == {True}
+    #if ausilio2 == {True}:
+    #    pass
     
 # next step is to parametrize it using hypothesis
 # we can generate random lists of element that will generate random dataframe
@@ -70,9 +71,11 @@ def test_array_prep_output_par(data_numb):
     # whose element is the shared one!
     ausilio2 = set(ausilio1)
     # if this element is the boolean variable True, the test is passed
-    if ausilio2 == {True}:
-        print(True)
-        return True
+    assert ausilio2 == {True} #-----> SE USO ASSERT IN QUESTO MODO MI Dà ERRORE
+    #bol = (ausilio2 == {True})
+    #assert bol, "mannaggia la miseria" #----> SE USO ASSERT IN QUESTO MODO IL TEST PASSA CON UN WARNING
+    #if ausilio2 == {True}:
+    #    pass   ----> SE USO PASS IL TEST PASSA SENZA PROBLEMI
     
 data_number = 10
 @given(list1 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, allow_infinity=False, allow_nan = False, exclude_min = True), min_size = 15, max_size = 15))
@@ -111,16 +114,10 @@ def test_array_prep_output_par2(list1, list2, list3):
     # whose element is the shared one!
     ausilio2 = set(ausilio1)
     # if this element is the boolean variable True, the test is passed
-    if ausilio2 == {True}:
-        print(True)
-        return None
-# Il messaggio che ottengo in output se eseguo pytest con return True è:
-# hypothesis.errors.FailedHealthCheck: Tests run under @given should return 
-# None, but test_array_prep_output_par2 returned True instead.
-
-# le variabili ausilio, ausilio1, ausilio2 sono come dovrebbero essere,
-# ciò significa che file csv creato e lettura fatta dalla funione 
-# array_preparation_advanced_v2 corrisponodno
+    bol = (ausilio2 == {True})
+    assert bol, "mannaggia la miseria"
+    #if ausilio2 == {True}:
+    #    pass
 
 
 
