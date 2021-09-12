@@ -6,6 +6,7 @@ Created on Wed Aug 27 17:58:17 2021
 
 import pandas as pd
 import numpy as np
+import math
 # Description:
 # This function automize the data extraction from a csv file basing on the 
 # headers of each column of data. 
@@ -34,9 +35,24 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
     y = table[header2]
     y_err = table[header3]
     #let's prepare the variable for the cycles
-    n = len(x)
-    numbers = list(range(n))
+    n_x = len(x)
+    n_y = len(y)
+    n_yerr = len(y_err)
+    # let's check if the number of element of each input arrays is equal
+    if n_x != n_y or n_x != n_yerr or n_y != n_yerr:
+        raise ValueError("The three input vectors do not have the same length")
+    # the problem is that I have difficoulties in defining a csv dataframe with
+    # columns of different length (empty cells automatically substituited by nan)
+    numbers = list(range(n_x))
     #check if some uncertainty is negative
+    columns = list(range(3))
+    for i in numbers:
+        if math.isnan(x[i]) == True:
+            raise ValueError("Some of the data in the csv file are not numbers")
+        if math.isnan(y[i]) == True:
+            raise ValueError("Some of the data in the csv file are not numbers")
+        if math.isnan(y_err[i]) == True:
+            raise ValueError("Some of the data in the csv file are not numbers")
     how_many_neg = 0
     for i in numbers:
         if y_err[i] < 0:
@@ -57,7 +73,7 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
     if how_many_neg > 0:
         raise ValueError("Some uncertainties are negative, therefore not acceptable. Check your data!")
     if how_many_zero > 0 and how_many_neg == 0:
-        print("Some uncertainties are equal to zero and have been replaced with negligible values. Check your data! The number of uncertainties equal to zero is" + how_many_zero)
+        print("Some uncertainties are equal to zero and have been replaced with negligible values. Check your data!")
         return result
 
 

@@ -10,6 +10,7 @@ import pandas as pd
 from hypothesis import given
 import hypothesis.strategies as st
 import pytest
+import csv
 
 data_number = 10
 @given(list1 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, allow_infinity=False, allow_nan = False, exclude_min = True), min_size = 15, max_size = 15))
@@ -48,13 +49,11 @@ def test_array_prep_output_par2(list1, list2, list3):
     ausilio2 = set(ausilio1)
     # if this element is the boolean variable True, the test is passed
     assert ausilio2 == {True}
-
-    
-    
+  
 @given(list1 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 0, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15))  
 # in this case hypothesis keep the same constrain of the previous test function 
 # for both list1 and list2. For the uncertainties list I fixed their value to zero
-def test_prep_zero(list1, list2, list3):
+def test_array_prep_zero(list1, list2, list3):
     data_th = pd.DataFrame(data={"col1": list1, "col2": list2, "col3": list3})
     data_th.to_csv("./dati_zero.csv", sep=',',index=False)
     data = array_preparation_advanced_v2("dati_zero.csv", "col1", "col2", "col3")
@@ -64,18 +63,40 @@ def test_prep_zero(list1, list2, list3):
     ausilio = 0
     for i in numbers:
         if y_err[i] == 0:
-            ausilio = ++ausilio
+            ausilio = ausilio+1
     assert ausilio == 0
     
 @given(list1 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = -1, max_value = 0, exclude_max = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15))
 # in this case the uncertainties list contains only negative values
-def test_rep_neg(list1, list2, list3):  
+def test_array_prep_neg(list1, list2, list3):  
     data_th = pd.DataFrame(data={"col1": list1, "col2": list2, "col3": list3})
-    data_th.to_csv("./dati_zero.csv", sep=',',index=False)
+    data_th.to_csv("./dati_neg.csv", sep=',',index=False)
     with pytest.raises(ValueError):
-        array_preparation_advanced_v2("dati_zero.csv", "col1", "col2", "col3")
+        array_preparation_advanced_v2("dati_neg.csv", "col1", "col2", "col3")
     
 # MISSED: RAISE ERROR WHEN THE NUMBER OF ELEMENT OF THE THREE INPUTS IS NOT CORRECT!!
             
+@given(list1 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 3, max_size = 3), list2 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 2, max_size = 2), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 1, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 1, max_size = 1))
+# the three vectors have different lengths
+# this is useful to be sure my function does not accept both csv files
+# with empty spaces or NaN number!
+def test_array_prep_length(list1, list2, list3):
+    list0 = ["col1", "col2", "col3"]
+    f = open("file_length.csv", "w")
+    writer = csv.writer(f)
+    writer.writerow(list0)
+    writer.writerow(list1)
+    writer.writerow(list2)
+    writer.writerow(list3)
+    f.close()
+    with pytest.raises(ValueError):
+        array_preparation_advanced_v2("file_length.csv", "col1", "col2", "col3")
     
     
+  
+    
+  
+    
+  
+    
+  
