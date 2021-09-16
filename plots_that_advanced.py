@@ -12,13 +12,16 @@ import matplotlib.axes as ax
 # the following function guides you through the designin of your personalized
 # plot, four possible scales (lin/log) avaiable, labels and legend can be inserted,
 # title of the plot can be specified, grid on/off functionality, the 
-# uncertainty bars can be shown or not
+# uncertainty bars can be showed or omitted
 
 # Inputs: 
 # x, y, y_err are the experimental data
 # fitfunc is the array of values that are the y computed at the experimental
 # x based on the fitting curve (polynomial)
 # the requested information are intuitive and fully explained
+
+#Output:
+# personalized plot
 
 def plots_that_advanced(x, y, y_err, fitfunc):
     # legend_position can be "upper right", "upper left", "lower left", 
