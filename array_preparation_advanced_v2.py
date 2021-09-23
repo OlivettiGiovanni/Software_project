@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Sep 14 18:12:06 2021
-
 @author: Giovanni Olivetti
 """
 
@@ -52,9 +51,9 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
         if math.isnan(x[i]) == True:
             raise ValueError("The value of one or more datas is NaN")
         if math.isnan(y[i]) == True:
-            raise ValueError("Some of the data in the csv file are not numbers")
+            raise ValueError("The value of one or more datas is NaN")
         if math.isnan(y_err[i]) == True:
-            raise ValueError("Some of the data in the csv file are not numbers")
+            raise ValueError("The value of one or more datas is NaN")
     # check how many uncertainties are negative
     how_many_neg = 0
     for i in numbers:
