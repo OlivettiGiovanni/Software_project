@@ -1,27 +1,36 @@
 # Software_project
-The idea is to realize a program that allows a good degree of automization in fitting and plotting experimental data. I list also some possible updates I can perform after
-having completed the first step. The program can be helpful for fast and preliminary python data analysis or as a recalling function in my future analysis script. 
+The idea is to realize a program that allows a good degree of automization in fitting and plotting experimental data in a personalized way. The program can be useful for fast and preliminary data analysis, but also for the production of complete simple plots that can be shown in a report. The personalization regards the choice of the degree of the fitting polynomial (degree = 1 if we need a simple linear fit) and in the specification for the plot features (scale, x and y caption, title, legenda, gird, uncertainty caps).
 
-Simple idea:
-- data load and management (still to decide which would be the degree of automization...)
-- polynomila fit of a chosen degree (to be inserted at screen)
-- superimposed plot (real and fitted curve with optional legend, colours, name of the axis etc...)
+The data to be fitted are taken from a .csv file and are identified through the headline of each correspondent column in the .csv file. 
+The main function requires: 
+- the name of the .csv file
+- the header of each column in a precise order (indipendent variable x, dipendent variable y and uncertainty on the dipendent variable y, namely y_err) 
+- the degree chosen for the fitting polynomial. 
+The main function returns: 
+- the y values of the fitting polynomial computed at the indipendent variable values
+- the parameters that characterize the fitting polynomial (fitting parameters)
+- the errors on the fitting parameters
+Morover the final function print at screen the final personalized plot. 
+The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting parameters.
 
-objective = obtain an useful superimposed graph that can give an idea for fast analysis  or  that can be useful for a very simple plot ready to be included in a report
+During the execution:
+- the data are extracted from the .csv file and located in a proper DataFrame
+- if the lenght of the input datasets (x, y and y_err) is not equal, it raises an error: "The three input vectors do not have the same length"
+- if there are NaN or infinite value it raises an error: "The value of one or more datas is NaN"
+- if some uncertainties are zero they are substituted by neglectable uncertainties (y_err[i] = y[i]/10^6) and the user is advised of this anomaly: "Some uncertainties are equal to zero and have been replaced with negligible values. Check your data!"
+- if some uncertainties are negative it raises an error: "Some uncertainties are negative, therefore not acceptable. Check your data!"
+- the vector x of the indipendet values is sorted (and y and y_err are adjusted by conseguence)
+- np.polyfit is recalled
+- errors are computed as square root of the diagonal element of the coovariance matrix
+- the plotting function is recalled and user input from terminal are required to personalize the plot
 
+Further improvements can be realized, expecially in the personalization of the interface from which you can select the desired features for the final plot (now it's simply the command line). A more general function will be achieved allowing for non-polynomial fitting (ex: exponential, logairthmic) and increasing the number of information (ex: goodnes of the fit)
 
-
-Challenging idea:
-- data load and management (still to decide which would be the degree of automization...) + uncertainty
-- polynomial fit of a certain degree with data weighted by the respective uncertainties 
-- superimposed plot (real and fitted curve with optional legend, colours, name of the axis, errorbar etc...)
-
-objective = obtain a complete fitting procedure with a complete plot
-
-
-
-Additional implementation:
-- eventual additional scientific parameters that quantify the goddness of the fit
-- to be continued
-
-
+The used libraries are:
+- pandas: to manage and generate DataFrame, useful in the operation of extraction and management of data
+- numpy: to work with np.polyfit function and use multidimensional arrays structure 
+- math: to check for NaN or infinte values that can raise ValueError during the execution
++
+the libraries used for the testing activity are:
+- pytest: to check the correct raise of error for given input variables
+- hypothesis: to find edge cases in the proposed unit tests
