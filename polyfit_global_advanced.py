@@ -1,24 +1,38 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug 25 17:44:53 2021
-
 @author: Giovanni Olivetti
 """
 
 from array_preparation_advanced_v2 import array_preparation_advanced_v2
-from polyfit_data_advanced_v2 import polyfit_data_advanced_v2
-from plots_that_advanced import plots_that_advanced
+from polyfit_data_advanced_v3 import polyfit_data_advanced_v3
+from plots_that_advanced_v2 import plots_that_advanced_v2
 import numpy as np
 
-def polyfit_global_advanced(file_path, header1, header2, header3, degree):
+def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
+    # collect data in a DataFrame
     datas = array_preparation_advanced_v2(file_path, header1, header2, header3)
+    # switch x,y and y_err into arrays
     x = np.array(datas[header1])
     y = np.array(datas[header2])
     y_err = np.array(datas[header3])
-    info = polyfit_data_advanced_v2(x, y, y_err, degree)
+    # realize a polynomial fit
+    info = polyfit_data_advanced_v3(x, y, y_err, degree)
+    #extract the y values of the fitting polynomial evaluated into the x values
     fitfunc = info[0]
-    plots_that_advanced(x, y, y_err, fitfunc)
+    # personalized (or predefined) plot
+    plots_that_advanced_v2(x, y, y_err, fitfunc, plot)
     return info
+ 
+# input plot con if else
+# o
+# crea un'altra funzione
+# o crea un dizionario predefinito che risulti come input di base e velocizzi 
+# la rpocedura di plotting nel caso di schetching (e risolva il problema relativo al test)
+
+
+
+# qualche test di tipo, stai manipolando i tipi e gli input che fornisci alla funzione 
 
 # Inputs:
 # the first four inputs have to be strings that identify:
@@ -36,4 +50,4 @@ def polyfit_global_advanced(file_path, header1, header2, header3, degree):
 # which fits the experimental datas
 # info[2] = errors assigned to each parameter 
 # +
-# plots the data in a personalized way
+# plots the data in a personalized way through plots_that_advanced function

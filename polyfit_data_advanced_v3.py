@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Sep 15 10:34:24 2021
-
 @author: Giovanni Olivetti
 """
 
@@ -40,7 +39,7 @@ def polyfit_data_advanced_v3(x,y,y_err,degree):
         if x_sorted[i] == x_sorted[i+1]: # we can do that cause x is sorted
             raise ValueError("Two x values are identical, the data cannot be represented with a function")
     # using polyfit we can get the fitting paramters and their rispective error
-    results = np.polyfit(x_sorted,y_sorted,degree,w=y_err_sorted,cov = True)
+    results = np.polyfit(x_sorted,y_sorted,degree,w=y_err_sorted,cov = 'unscaled')
     par = results[0]
     covar = results[1]
     # from the covar matrix we can now estimate the errors on the parameters
@@ -48,11 +47,11 @@ def polyfit_data_advanced_v3(x,y,y_err,degree):
     numbers = list(range(n))
     errors = np.zeros(n)
     for i in numbers:
-        errors[i] = np.sqrt(covar[i][i])
+        errors[i] = np.sqrt(abs(covar[i][i]))
     # let's define a polynomial starting from the fitting parameters
     final_fitting_pol = np.poly1d(par)
     # let's compute the y values through the evaluation of the above
     # polynomial in the x array
-    final_fitting_curve = final_fitting_pol(x_sorted)
+    final_fitting_curve = final_fitting_pol(x)
     return final_fitting_curve, par, errors
 
