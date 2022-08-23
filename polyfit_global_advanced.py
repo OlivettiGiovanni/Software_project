@@ -23,16 +23,20 @@ def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
     # personalized (or predefined) plot
     plots_that_advanced_v2(x, y, y_err, fitfunc, plot)
     return info
- 
+
+    
+#GIAMPIERI (comments)
 # input plot con if else
 # o
 # crea un'altra funzione
-# o crea un dizionario predefinito che risulti come input di base e velocizzi 
-# la rpocedura di plotting nel caso di schetching (e risolva il problema relativo al test)
+# o 
+#crea un dizionario predefinito che risulti come input di base e velocizzi 
+# la procedura di plotting nel caso di schetching (e risolva il problema relativo al test)
 
 
+# faccia qualche test di tipo, stai manipolando i tipi e gli input che fornisce alla funzione 
 
-# qualche test di tipo, stai manipolando i tipi e gli input che fornisci alla funzione 
+
 
 # Inputs:
 # the first four inputs have to be strings that identify:
