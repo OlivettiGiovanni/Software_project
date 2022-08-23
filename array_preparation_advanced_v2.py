@@ -26,11 +26,17 @@ import math
 
 
 def array_preparation_advanced_v2(file_path, header1, header2, header3):
+    # NEW: Why do I need to convert them in strings? It is required that the inputs are strings and
+    # it is not possible to write headers with blank space without converting them into strings...
+    # Moreover, in this way there might be errors beacuse the function read the inputs
+    # as variables and immediatly transform them into real strings, using their value to operatre
+    # if there would be a previosuly defined Temperature variable (Temperature [300]), the header
+    # might be "300"
     file_path = str(file_path)
     header1 = str(header1)
     header2 = str(header2)
     header3 = str(header3)
-    # create the list of headlines
+    # creating the list of headlines
     col_list = [header1, header2, header3]
     # read from a csv file (file_path) the data in the columns having the chosen headlines
     table = pd.read_csv(file_path, usecols = col_list)
@@ -46,7 +52,7 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
     if n_x != n_y or n_x != n_yerr or n_y != n_yerr:
         raise ValueError("The three input vectors do not have the same length")
     numbers = list(range(n_x))
-    #check if there are some nan value in your csv file and raise an error in that case
+    #check if there are some NaN value in your csv file and raise an error in that case
     for i in numbers:
         if math.isnan(x[i]) == True:
             raise ValueError("The value of one or more datas is NaN")
@@ -68,7 +74,7 @@ def array_preparation_advanced_v2(file_path, header1, header2, header3):
             # even if it's not realistic, for this reason the terminal will advice
             # the user that some uncertainties are equal to zero. 
             # this function is thougth also for preliminary (and so not so rigourous)
-            # data fitting an plotting
+            # data fitting and plotting
             y_err[i] = y[i] / 1000000
     # now let's reconstruct the dataframe with the fixed values of our inputs
     x_series = pd.Series(x)
