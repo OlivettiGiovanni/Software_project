@@ -8,20 +8,19 @@ from array_preparation_advanced_v2 import array_preparation_advanced_v2
 from polyfit_data_advanced_v3 import polyfit_data_advanced_v3
 from plots_that_advanced_v2 import plots_that_advanced_v2
 import numpy as np
+from array_extraction import array_extraction
 
 def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
     # collect data in a DataFrame
     datas = array_preparation_advanced_v2(file_path, header1, header2, header3)
-    # switch x,y and y_err into arrays
-    x = np.array(datas[header1])
-    y = np.array(datas[header2])
-    y_err = np.array(datas[header3])
+    # extract the variables using the proper function
+    var = array_extraction(datas, header1, header2, header3)
     # realize a polynomial fit
-    info = polyfit_data_advanced_v3(x, y, y_err, degree)
+    info = polyfit_data_advanced_v3(var[0], var[1], var[2], degree)
     #extract the y values of the fitting polynomial evaluated into the x values
     fitfunc = info[0]
     # personalized (or predefined) plot
-    plots_that_advanced_v2(x, y, y_err, fitfunc, plot)
+    plots_that_advanced_v2(var[0], var[1], var[2], fitfunc, plot)
     return info
 
     
