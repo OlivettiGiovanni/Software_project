@@ -40,7 +40,7 @@ def polyfit_data_advanced_v3(x,y,y_err,degree):
             raise ValueError("Two x values are identical, the data cannot be represented with a function")
     # using polyfit we can get the fitting paramters and their rispective error
     results = np.polyfit(x_sorted,y_sorted,degree,w=y_err_sorted, full = False, cov = True)
-    # if full = False and cov = True 
+    # if full = False and cov = True ==> errors as sqrt of the diagonal of covar matrix
     par = results[0]
     covar = results[1]
     # from the covar matrix we can now estimate the errors on the parameters
