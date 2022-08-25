@@ -4,23 +4,22 @@ Created on Wed Aug 25 17:44:53 2021
 @author: Giovanni Olivetti
 """
 
-from array_preparation_advanced_v2 import array_preparation_advanced_v2
-from polyfit_data_advanced_v3 import polyfit_data_advanced_v3
-from plots_that_advanced_v2 import plots_that_advanced_v2
-import numpy as np
+from array_prep import array_prep
+from polyfit_data import polyfit_data
+from plots_that import plots_that
 from array_extraction import array_extraction
 
 def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
     # collect data in a DataFrame
-    datas = array_preparation_advanced_v2(file_path, header1, header2, header3)
+    datas = array_prep(file_path, header1, header2, header3)
     # extract the variables using the proper function
     var = array_extraction(datas, header1, header2, header3)
     # realize a polynomial fit
-    info = polyfit_data_advanced_v3(var[0], var[1], var[2], degree)
+    info = polyfit_data(var[0], var[1], var[2], degree)
     #extract the y values of the fitting polynomial evaluated into the x values
     fitfunc = info[0]
     # personalized (or predefined) plot
-    plots_that_advanced_v2(var[0], var[1], var[2], fitfunc, plot)
+    plots_that(var[0], var[1], var[2], fitfunc, plot)
     return info
 
     

@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import math
 
-def array_preparation_advanced_v2(file_path, header1, header2, header3):
+def array_prep(file_path, header1, header2, header3):
     # considering the unique input accepted is a string (in order to extract the DataFrame)
     # there is no possibility that using as an input something else it will be accepted...
     #file_path = str(file_path)

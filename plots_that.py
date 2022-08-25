@@ -30,7 +30,7 @@ import matplotlib.pyplot as plt
 #Output:
 # personalized plot (all the possible choises are clearly explained)
 
-def plots_that_advanced_v2(x, y, y_err, fitfunc, plot):
+def plots_that(x, y, y_err, fitfunc, plot):
     # It is possible to chose a preselected plot or personalize each of its aspects
     # If plot == True, user instruction are required (command line)
     if plot == True:

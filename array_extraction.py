@@ -14,6 +14,9 @@ import numpy as np
 # this DataFrame is the one that collects x, y and y_err
 # - header1, 2, 3 to select the proper column
 
+# OUTPUTS:
+# return the three variables of interest as array
+
 def array_extraction(dataframe, header1, header2, header3):
     x = np.array(dataframe[header1])
     y = np.array(dataframe[header2])

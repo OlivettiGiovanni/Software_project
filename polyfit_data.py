@@ -23,7 +23,7 @@ import numpy as np
 # - Two x values are identical
 
 
-def polyfit_data_advanced_v3(x,y,y_err,degree):
+def polyfit_data(x,y,y_err,degree):
     # let's put out data into a matrix in order to sort them
     inputs = np.vstack((x,y,y_err))
     # let's sort our data according to the first row (x values)
