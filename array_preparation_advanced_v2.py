@@ -9,18 +9,13 @@ import pandas as pd
 import numpy as np
 import math
 
-def array_preparation_advanced_v2_arr(file_path, header1, header2, header3):
-    # NEW: Why do I need to convert them in strings? It is required that the inputs are strings and
-    # it is not possible to write headers with blank space without converting them into strings...
-    # Moreover, in this way there might be errors beacuse the function read the inputs
-    # as variables and immediatly transform them into real strings, using their value to operatre
-    # if there would be a previosuly defined Temperature variable (Temperature [300]), the header
-    # might be "300"
-    # nope, they are useful to avoid a correct selection of the header even without a string!
-    file_path = str(file_path)
-    header1 = str(header1)
-    header2 = str(header2)
-    header3 = str(header3)
+def array_preparation_advanced_v2(file_path, header1, header2, header3):
+    # considering the unique input accepted is a string (in order to extract the DataFrame)
+    # there is no possibility that using as an input something else it will be accepted...
+    #file_path = str(file_path)
+    #header1 = str(header1)
+    #header2 = str(header2)
+    #header3 = str(header3)
     # creating the list of headlines
     col_list = [header1, header2, header3]
     # read from a csv file (file_path) the data in the columns having the chosen headlines
@@ -40,7 +35,7 @@ def array_preparation_advanced_v2_arr(file_path, header1, header2, header3):
     # columns of different length (empty cells automatically substituited by nan)
     numbers = list(range(n_x))
     #check if some uncertainty is negative
-    columns = list(range(3))
+    #columns = list(range(3))
     for i in numbers:
         if math.isnan(x[i]) == True:
             raise ValueError("Some of the data in the csv file are not numbers")
@@ -52,7 +47,7 @@ def array_preparation_advanced_v2_arr(file_path, header1, header2, header3):
     for i in numbers:
         if y_err[i] < 0:
             how_many_neg = how_many_neg+1
-    #checl if some uncertainty is zero
+    #check if some uncertainty is zero
     how_many_zero = 0
     for i in numbers:
         if y_err[i] == 0:
