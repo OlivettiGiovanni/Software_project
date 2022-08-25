@@ -72,3 +72,4 @@ def plots_that_advanced_v2(x, y, y_err, fitfunc, plot):
         plt.ylabel("y")
         plt.errorbar(x,y, yerr = y_err, fmt = 'k.', markersize = 4, capsize = 3, linewidth = 1)
         plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4)
+        plt.show()
