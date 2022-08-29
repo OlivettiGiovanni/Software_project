@@ -8,6 +8,7 @@ Created on Tue Sep 14 18:12:06 2021
 import pandas as pd
 import numpy as np
 import math
+import statistics
 
 def array_prep(file_path, header1, header2, header3):
     # considering the unique input accepted is a string (in order to extract the DataFrame)
@@ -16,6 +17,14 @@ def array_prep(file_path, header1, header2, header3):
     #header1 = str(header1)
     #header2 = str(header2)
     #header3 = str(header3)
+    if type(file_path) != str:
+        raise ValueError("The file name is not a str")
+    if type(header1) != str:
+        raise ValueError("The x variable header is not a str")
+    if type(header2) != str:
+        raise ValueError("The y variable header is not a str")
+    if type(header3) != str:
+        raise ValueError("The uncertainty header is not a str")
     # creating the list of headlines
     col_list = [header1, header2, header3]
     # read from a csv file (file_path) the data in the columns having the chosen headlines
@@ -47,12 +56,25 @@ def array_prep(file_path, header1, header2, header3):
     for i in numbers:
         if y_err[i] < 0:
             how_many_neg = how_many_neg+1
-    #check if some uncertainty is zero
+    #check if some uncertainty is zero and substitute them with mean(y[i])/10^6
+    mean_y = 0
+    for i in numbers:
+        mean_y = mean_y + abs(y[i])
+    mean_y = mean_y / n_y
     how_many_zero = 0
     for i in numbers:
         if y_err[i] == 0:
             how_many_zero = how_many_zero+1
-            y_err[i] = y[i] / 1000000
+            #I need to consider the case in which also y[1] might be zero.
+            #an idea could be to use a general and identical uncertainties for all the y
+            # equal to average[y[i]]/10^6
+            if y[i] != 0:
+                y_err[i] = y[i] / 1000000
+            else:
+                if mean_y != 0:
+                    y_err[i] = mean_y / 1000000
+                else:
+                    raise ValueError("all y values are equal to zero")       
     x_series = pd.Series(x)
     y_series = pd.Series(y)
     y_err_series = pd.Series(y_err)
