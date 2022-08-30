@@ -10,9 +10,11 @@ import numpy as np
 # general function to extract from a DataFrame three series based on the header you select
 
 # INPUTS:
-# - dataframe = DataFarme you want to work one. In the frame of polyfit_global function
+# - dataframe = DataFarme you want to work on. In the frame of polyfit_global function
 # this DataFrame is the one that collects x, y and y_err
-# - header1, 2, 3 to select the proper column
+# - header1, 2, 3 to select the proper column (respectively the indipendent variable x,
+# the dipendent variable y and the error associated to the dipendent variable y_err)
+
 
 # OUTPUTS:
 # return the three variables of interest as array

@@ -14,6 +14,11 @@ import statistics
     # file_path = string containing the name of the csv file followed by .csv
     # header1,2,3 = strings of the header of the column containing respectively the indipendent variable x,
     # the dipendent variable y and the error associated to the dipendent variable y_err
+    
+#RETURNS:
+    # dataframe with the corrected data, column 1, 2, 3 containing respecitvely the indipendent variable x,
+    # the dipendent variable y and the error associated to the dipendent variable y_err
+    
 
 def array_prep(file_path, header1, header2, header3):
     # rising errors if the input types are not strings
