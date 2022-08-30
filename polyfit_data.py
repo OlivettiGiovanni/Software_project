@@ -32,6 +32,8 @@ def polyfit_data(x,y,y_err,degree):
     x_sorted = inputs_sort[0]
     y_sorted = inputs_sort[1]
     y_err_sorted = inputs_sort[2]
+    # sorting is useful to have no problem with fittings and to manipulate the data
+    # only in the frame of the fitting, without modifying the raw data
     # let's raise an error if two x values are identical
     m = len(x)-1
     mumbers = list(range(m))
@@ -39,7 +41,7 @@ def polyfit_data(x,y,y_err,degree):
         if x_sorted[i] == x_sorted[i+1]: # we can do that cause x is sorted
             raise ValueError("Two x values are identical, the data cannot be represented with a function")
     # using polyfit we can get the fitting paramters and their rispective error
-    results = np.polyfit(x_sorted,y_sorted,degree,w=y_err_sorted, full = False, cov = True)
+    results = np.polyfit(x_sorted,y_sorted,degree,w=(y_err_sorted)**(-1), full = False, cov = True)
     # if full = False and cov = True ==> errors as sqrt of the diagonal of covar matrix
     par = results[0]
     covar = results[1]
