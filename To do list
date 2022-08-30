@@ -1,7 +1,0 @@
-17/08/2021
-First block = load data in order to easily use them during fitting procedure
-- understand the main method you have to load data in the python space
-- elaborate different possible function to load data
-- think about some possible cases in which you can use this load function
-- elaborate some testing function and test them
-
