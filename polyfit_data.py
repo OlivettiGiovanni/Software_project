@@ -42,10 +42,9 @@ def polyfit_data(x,y,y_err,degree):
             raise ValueError("Two x values are identical, the data cannot be represented with a function")
     # using polyfit we can get the fitting paramters and their rispective error
     results = np.polyfit(x_sorted,y_sorted,degree,w=(y_err_sorted)**(-1), full = False, cov = True)
-    # if full = False and cov = True ==> errors as sqrt of the diagonal of covar matrix
     par = results[0]
     covar = results[1]
-    # from the covar matrix we can now estimate the errors on the parameters
+    # from the covar matrix we can now estimate the errors on the parameters as square root of the diagonal elements
     n = len(par)
     numbers = list(range(n))
     errors = np.zeros(n)
@@ -53,8 +52,7 @@ def polyfit_data(x,y,y_err,degree):
         errors[i] = np.sqrt(abs(covar[i][i]))
     # let's define a polynomial starting from the fitting parameters
     final_fitting_pol = np.poly1d(par)
-    # let's compute the y values through the evaluation of the above
-    # polynomial in the x array
+    # let's compute the y values through the evaluation of the above polynomial in the x array
     final_fitting_curve = final_fitting_pol(x)
     return final_fitting_curve, par, errors
 

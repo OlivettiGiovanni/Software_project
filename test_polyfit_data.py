@@ -23,7 +23,8 @@ def test_polyfit_equal_x(list1):
     
 @given(coefficients = st.lists(elements = st.floats(min_value = 1, max_value = 5), min_size = 2, max_size = 4), x_var = st.lists(elements = st.integers(min_value = 1, max_value = 50), min_size = 10, max_size = 15, unique = True))
 # I want to test if the estimated fitting parameters are compatible with a set
-# of given coefficients.
+# of given coefficients. The uncertainty are defined as 1% of the y values and the
+# coefficients has to be compatible within the 1%
 def test_parameter(coefficients, x_var):
     x = x_var
     threshold = 0.01
@@ -40,10 +41,8 @@ def test_parameter(coefficients, x_var):
     # let's prepare the for cycle
     numbers = list(range(length))
     booleans = list(range(length)) 
-    # compatibility test between the given coefficient and the estimate one, using
-    # the estimated errors to open the compatibility interval
+    # compatibility test between the given coefficient and the estimate one
     for i in numbers:
-        # I chose 10 times sigma in order to resemble a maximum uncertainty
         if parameters[i] >= coefficients[i] - threshold * coefficients[i] and parameters[i] <= coefficients[i] + threshold * coefficients[i]:
             booleans[i] = True
         else:
@@ -71,10 +70,8 @@ def test_parameter_bis(threshold, coefficients):
     # let's prepare the for cycle
     numbers = list(range(length))
     booleans = list(range(length)) 
-    # compatibility test between the given coefficient and the estimate one, using
-    # the estimated errors to open the compatibility interval
+    # compatibility test between the given coefficient and the estimate one
     for i in numbers:
-        # I chose 10 times sigma in order to resemble a maximum uncertainty
         if parameters[i] >= coefficients[i] -  threshold * coefficients[i] and parameters[i] <= coefficients[i] + threshold * coefficients[i]:
             booleans[i] = True
         else:

@@ -57,7 +57,7 @@ def plots_that(x, y, y_err, fitfunc, plot):
         if whichplot == "lin":
             plt.plot(x, fitfunc, "-b", linewidth = 2, markersize = 4, label = text2)
         if whichplot == "log":
-            plt.loglog(x, fitfunc, "-b", label = text2) #, linewidth = 2, markersize = 4,)
+            plt.loglog(x, fitfunc, "-b", label = text2) 
         if whichplot == "linlog":
             plt.semilogx(x, fitfunc, "-b", label = text2)
         if whichplot == "loglin":

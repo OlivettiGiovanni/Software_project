@@ -22,27 +22,17 @@ def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
     plots_that(var[0], var[1], var[2], fitfunc, plot)
     return info
 
-    
-#GIAMPIERI (comments)
-# input plot con if else
-# o
-# crea un'altra funzione
-# o 
-#crea un dizionario predefinito che risulti come input di base e velocizzi 
-# la procedura di plotting nel caso di schetching (e risolva il problema relativo al test)
-
-
-# faccia qualche test di tipo, stai manipolando i tipi e gli input che fornisce alla funzione 
 
 
 
 # Inputs:
-# the first four inputs have to be strings that identify:
+# - the first four inputs have to be strings that identify:
 # file_path: the name of the file (specifing also its extension, that has to be .csv) 
 # header1,2,3: the precise headline of, respectively, indipedent variable, 
 # dipendent variable, uncertainties on the indipendent variable
-# degree is an integer and corresponds to the degree chosen to build the polynomial 
+# - degree is an integer and corresponds to the degree chosen to build the polynomial 
 # used to fit our data.
+# - plot: boolean function to chose a default simple plot (False) or a personalized one (True)
 
 #Outputs:
 #Outputs
@@ -52,4 +42,4 @@ def polyfit_global_advanced(file_path, header1, header2, header3, degree, plot):
 # which fits the experimental datas
 # info[2] = errors assigned to each parameter 
 # +
-# plots the data in a personalized way through plots_that_advanced function
+# plots the data through plots_that_advanced function
