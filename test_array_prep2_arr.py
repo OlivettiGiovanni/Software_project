@@ -142,6 +142,16 @@ def test_array_prep_length(list1):
     assert ausilio2 == {True}    
     
     
-  
+
+
+@given(list1 = st.lists(elements=st.floats(width = 16, min_value = -10, max_value = 10, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list2 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, exclude_min = True, allow_infinity=False, allow_nan = False), min_size = 15, max_size = 15), list3 = st.lists(elements=st.floats(width = 16, min_value = 0, max_value = 10, allow_infinity=False, allow_nan = False, exclude_min = True), min_size = 15, max_size = 15))
+def test_array_prep_type(list1, list2, list3):
+    data_th = pd.DataFrame(data={"col1": list1, "col2": list2, "col3": list3})
+    # let's create a csv file that will be used as an input of  the 
+    # array_preparation function
+    data_th.to_csv("./dati_type.csv", sep=',',index=False)
+    #let's collect the output of the array_preparation function
+    data = array_prep("dati_type.csv", "col1", "col2", "col3")
+    assert type(data) == pd.core.frame.DataFrame
     
   
