@@ -8,109 +8,97 @@ Created on Tue Sep 14 18:12:06 2021
 import pandas as pd
 import numpy as np
 import math
-import statistics
+import csv
     
-    
+
+
+
+
+
+# TO DO LIST
+# ADJUST THE FUNCTION DESCRIPTION IN ORDER TO NOT TALK ABOUT X, Y AND Y-ERR
+# THE SINGLE FUNCTION MIGHT BE USED IN THE FUTURE FOR ANOTHER PROGRAM!
  
     
  
-def check_strings(file_path, header1, header2, header3):
-    '''This function requires repectively the name of the csv file, the header of the independent variable x,
-    the header of the dependent variable y and the header of the uncertainties of the dependent variable y_err.
-    The function checks if the inputs are strings and  if not raises an typeError'''
-    if type(file_path) != str:
-        raise TypeError("The file name is not a str")
-    if type(header1) != str:
-        raise TypeError("The x variable header is not a str")
-    if type(header2) != str:
-        raise TypeError("The y variable header is not a str")
-    if type(header3) != str:
-        raise TypeError("The uncertainty header is not a str")  
-    return file_path, header1, header2, header3
+def check_string(string):
+    '''This function requires a variable as input and checks if it's string. If not raises a TypeError'''
+    if isinstance(string, str) == False:
+        raise TypeError("The variable is not a str")
+    return string
 
 
 
 
 def array_load(file_path, header1, header2, header3):
-    ''' This function requires repectively the name of the csv file, the header of the independent variable x,
-    the header of the dependent variable y and the header of the uncertainties of the dependent variable y_err.
-    The function loads the variables with the respective header from file_path.csv collecting the data in a pandas
-    dataframe '''
+    ''' This function requires four strings containing respectively the name of the csv file
+    and three headers of the columns you want to extact. The functions loads the columns
+    you want to extract in a pandas dataframe'''
     # creating the list of headlines
     col_list = [header1, header2, header3]
     # read from a csv file (file_path) the data in the columns having the chosen headlines
     table = pd.read_csv(file_path, usecols = col_list)
     return table
-    #IS IT BETTER TO DEFINE COL-LIST OUTSIDE TABLE?
 
 
 
 
 def array_extraction(dataframe, header1, header2, header3):
-    ''' This function requires repectively the pandas dataframe in which the data are stored, the header of the
-    independent variable x, the header of the dependent variable y and the header of the uncertainties of the 
-    dependent variable y_err. The function extract froma dataframe the variables as arrays. '''
-    x = np.array(dataframe[header1])
-    y = np.array(dataframe[header2])
-    y_err = np.array(dataframe[header3])
-    return x, y, y_err
+    ''' This function requires a pandas dataframe in which the data are stored and three strings
+    corresponding to the headers of the columns of interest. The function convert each column in 
+    an array and retursn the array following the order of the inserted headers'''
+    array1 = np.array(dataframe[header1])
+    array2 = np.array(dataframe[header2])
+    array3 = np.array(dataframe[header3])
+    return array1, array2, array3
 
 
 
 
-def check_length(x,y,y_err):
-    ''' The function requires repectively the arrays in which the independent variable x,
-    the dependent variable y and the uncertainties on the dependent variable y_err are stored.
-    The function checks the three arrays have the same length and if not raises a ValueError '''
-    n_x = len(x)
-    n_y = len(y)
-    n_yerr = len(y_err)
+def check_length(array1, array2, array3):
+    ''' The  function requires three arrays as input. The function check if they have the same length 
+    and if not raises a ValueError. '''
+    n_1 = len(array1)
+    n_2 = len(array2)
+    n_3 = len(array3)
     # let's check if the number of element of each input arrays is equal
-    if n_x != n_y or n_x != n_yerr or n_y != n_yerr:
+    if n_1 != n_2 or n_1 != n_3 or n_2 != n_3:
         raise ValueError("The three input vectors do not have the same length")
- 
-        
- 
+   
+
     
-def check_NaN(x,y,y_err):
-    ''' This function requires repectively the arrays in which the independent variable x,
-    the dependent variable y and the uncertainties on the dependent variable y_err are stored.
-    The function raises an error if any element of any arrays is not a number.'''
+def check_NaN(array):
+    ''' This function requires an array as input. The function raises an error if an element of the
+    array is not a number.'''
     # determine the length of the x array
-    n_x = len(x)
+    n_a = len(array)
     # define a list of indices which labes each element of x
-    domain = range(n_x)
+    domain = range(n_a)
     numbers = list(domain)
     #check if some elements of the x, y and y_err variables are NaN
     for i in numbers:
-        if math.isnan(x[i]) == True:
-            raise ValueError("The x element whose index is" + i + ", is not a number")
-        if math.isnan(y[i]) == True:
-            raise ValueError("The y element whose index is" + i + ", is not a number")
-        if math.isnan(y_err[i]) == True:
-            raise ValueError("The y_err element whose index is" + i + ", is not a number")
- 
+        if math.isnan(array[i]) == True:
+            raise ValueError("The x element whose index is " + str(i) + ", is not a number")
+
             
  
-def check_negative_uncertainties(y_err):
-    ''' This function requires repectively the array in which the uncertainties on the 
-    dependent variable y_err are stored. The function raises an error if one uncertainty
-    is negative.'''
+def check_negative_values(array):
+    ''' This function requires an array as input. The function raises an error if the uncertainties are negative'''
     # determine the length of the y_err array
-    n_x = len(y_err)
+    n = len(array)
     # define a list of indices which labes each element of y_err
-    domain = range(n_x)
+    domain = range(n)
     numbers = list(domain)
     #check if there are negative uncertainties
     for i in numbers:
-        if y_err[i] < 0:
-            raise ValueError("The uncertainty whose index is" + i + "is negative")
+        if array[i] < 0:
+            raise ValueError("The uncertainty whose index is" + str(i) + "is negative")
 
 
 
-def absolute_y_mean(y):
-    ''' This function requires the array of dependent variable y. The function returns
-    the average of the absolute value of the y elements'''
+def absolute_mean(y):
+    ''' This function requires an array as input. The function returns
+    the average of the absolute value of the array elements'''
     n = len(y) # determine the length of the y_err array
     # define a list of indices which labes each element of y_err
     domain = range(n)
@@ -120,6 +108,7 @@ def absolute_y_mean(y):
     for i in numbers:
         mean_y = mean_y + abs(y[i])
     mean_y = mean_y / n
+    return mean_y
 
 
 
@@ -139,12 +128,18 @@ def fix_null_uncertainties(mean_y, y, y_err):
     for i in numbers:
         if y_err[i] == 0:
             if y[i] != 0: #if the y values is not zero
-                y_err[i] = y[i] / 1000000 #the uncertainty is six order of magnitude smaller then the affected y value
+                y_err[i] = y[i]/1000000 #the uncertainty is six order of magnitude smaller then the affected y value
             else: #if the y value is zero
-                y_err[i] = mean_y / 1000000 #the uncertainty is six order of magnitude smaller than the average y value
+                y_err[i] = mean_y /1000000 #the uncertainty is six order of magnitude smaller than the average y value
     if mean_y == 0:
-        raise ValueError("all y values are equal to zero") #non meaningful data  ù
+        raise ValueError("all y values are equal to zero") #non meaningful data  
     return y_err
+
+# DO I HAVE TO PUT THERE THE CHECK-LENTGH() FUNCTION? MAYBE...
+# BEACUSE WHAT HAPPEND IF THEY DON'T HAVE THE SAME LENGTH...
+
+# IT SEEMS I CANNOT REDEFINE Y_ERR IN THIS FUNCTION... THIS SEEMS TO HAPPEN WITH GLOBAL VARIABLES,
+# BUT THAT'S NOT A GLOBAL VARIABLE
    
 
          
@@ -176,38 +171,45 @@ def check_x_values(x_sorted):
     numbers = list(domain)
     for i in numbers:
         if x_sorted[i] == x_sorted[i+1]: 
-            raise ValueError("Two x values are identical, the data cannot be represented with a function")
+            raise ValueError("Two x values" + str(i) + "and" + str(i+1) + " are identical, the data cannot be represented with a function")
 
 
 
-            
-def corrected_dataframe(x,y,y_err, header1, header2, header3):
+
+
+def create_dataframe(array1, array2, array3, header1, header2, header3):
     ''' This function requires repectively the arrays in which the independent variable x,
     the dependent variable y and the uncertainties on the dependent variable y_err are stored. 
     This arrey must have been sorted by the function sort_x(). The function store the three arrays
     in a pandas dataframe, associating header1 to x, header2 to y and header 3 to y_err. The final 
     pandas dataframe is returned by the function'''
-    x_series = pd.Series(x)
-    y_series = pd.Series(y)
-    y_err_series = pd.Series(y_err)
-    frame = {header1: x_series, header2:y_series, header3:y_err_series}
+    a_1 = pd.Series(array1)
+    a_2 = pd.Series(array2)
+    a_3 = pd.Series(array3)
+    frame = {header1: a_1, header2:a_2, header3:a_3}
     result = pd.DataFrame(frame)
     return result
 
 
 
 
+
 def array_prep(file_path, header1, header2, header3):
-    check_strings(file_path, header1, header2, header3)
+    check_string(file_path)
+    check_string(header1)
+    check_string(header2)
+    check_string(header3)
     data_table = array_load(file_path, header1, header2, header3)
     data = array_extraction(data_table, header1, header2, header3)
     x = data[0]
     y = data[1]
     y_err = data[2]
-    check_NaN(x, y, y_err)
+    check_NaN(x)
+    check_NaN(y)
+    check_NaN(y_err)
     check_length(x, y, y_err)
-    check_negative_uncertainties(y_err)
-    mean_y = absolute_y_mean(y)
+    check_negative_values(y_err)
+    mean_y = absolute_mean(y)
     y_err = fix_null_uncertainties(mean_y, y, y_err)
     data_sorted = sort_x(x,y,y_err)
     data = array_extraction(data_table, header1, header2, header3)
@@ -215,8 +217,11 @@ def array_prep(file_path, header1, header2, header3):
     y_sorted = data_sorted[1]
     y_err_sorted = data_sorted[2]   
     check_x_values(x_sorted)
-    data_corrected = corrected_dataframe(x_sorted, y_sorted, y_err_sorted, header1, header2, header3)
+    data_corrected = create_dataframe(x_sorted, y_sorted, y_err_sorted, header1, header2, header3)
     return data_corrected
+
+# IS IT WORTH TO DEFINE A PROPER FUNCTION THAT EXECUTE IN A PRECISE ORDER ALL THE PREVIOUS FUNCTIONS?
+# for me yes, beacause I might need these operations outside the fitting function...
 
 
 
