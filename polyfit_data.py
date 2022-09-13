@@ -96,17 +96,17 @@ def check_negative_values(array):
 
 
 
-def absolute_mean(y):
+def absolute_mean(array):
     ''' This function requires an array as input. The function returns
     the average of the absolute value of the array elements'''
-    n = len(y) # determine the length of the y_err array
+    n = len(array) # determine the length of the y_err array
     # define a list of indices which labes each element of y_err
     domain = range(n)
     numbers = list(domain)
     #calculate the average of the absolute y values (used after)
     mean_y = 0
     for i in numbers:
-        mean_y = mean_y + abs(y[i])
+        mean_y = mean_y + abs(array[i])
     mean_y = mean_y / n
     return mean_y
 
@@ -120,6 +120,8 @@ def fix_null_uncertainties(mean_y, y, y_err):
     mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
     The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
     to zero the dataset is not meaningful'''
+    #be sure the y and y_err arrays have the same length, otherwise the function might not work as expected
+    check_length(y, y_err)
     n = len(y_err) # determine the length of the y_err array
     # define a list of indices which labes each element of y_err
     domain = range(n)
@@ -143,21 +145,18 @@ def fix_null_uncertainties(mean_y, y, y_err):
    
 
          
-
-def sort_x(x, y, y_err):
-    ''' This function requires repectively the arrays in which the independent variable x,
-    the dependent variable y and the uncertainties on the dependent variable y_err are stored.
-    The function sort the x elements in ascending order and sort as a conseguence the 
-    corresponding y and y_err elements. The function returns the sorted x, y and y_err arrays'''
-    # let's put out data into a matrix in order to sort them
-    inputs = np.vstack((x,y,y_err))
+# think againa and checks what is sorting, THE DESCRIPTION OF THE FUCNTION IS NOT CORRECT!
+def array_sort(array1, array2, array3):
+    '''  This function requires three arrays as inputs. The function puts the three arrays
+    in a matrix and sort the rows in ascending order basing on the first column value. The function 
+    then returns the three ordered arrays.'''
+    check_length(array1, array2, array3)
+    # let's put out data into a matrix in order to sort them 
+    inputs = np.vstack((array1, array2, array3))
     # let's sort our data according to the first row (x values)
     inputs_sort = np.array(list(zip(*sorted(zip(*inputs)))))
     # let's extract the now sorted arrays
-    x_sorted = inputs_sort[0]
-    y_sorted = inputs_sort[1]
-    y_err_sorted = inputs_sort[2]
-    return x_sorted, y_sorted, y_err_sorted
+    return inputs_sort
 
 
 
@@ -211,7 +210,7 @@ def array_prep(file_path, header1, header2, header3):
     check_negative_values(y_err)
     mean_y = absolute_mean(y)
     y_err = fix_null_uncertainties(mean_y, y, y_err)
-    data_sorted = sort_x(x,y,y_err)
+    data_sorted = array_sort(x,y,y_err)
     data = array_extraction(data_table, header1, header2, header3)
     x_sorted = data_sorted[0]
     y_sorted = data_sorted[1]
@@ -222,6 +221,7 @@ def array_prep(file_path, header1, header2, header3):
 
 # IS IT WORTH TO DEFINE A PROPER FUNCTION THAT EXECUTE IN A PRECISE ORDER ALL THE PREVIOUS FUNCTIONS?
 # for me yes, beacause I might need these operations outside the fitting function...
+
 
 
 
@@ -242,6 +242,7 @@ def polyfit_data(dataframe, header1, header2, header3, degree):
 
 
 
+
 def par_and_err_extraction(result):
     ''' The input required is the return of the polyfit function. The function retruns the paramaters of 
     the polynomial fit and the corresponding calculated errors. The errors are calculated as square root
@@ -255,6 +256,7 @@ def par_and_err_extraction(result):
     for i in numbers:
         errors[i] = np.sqrt(abs(covar[i][i]))
     return par, errors
+
 
 
 
