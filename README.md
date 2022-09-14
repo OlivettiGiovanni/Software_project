@@ -6,7 +6,7 @@ The idea is to realize a program that allows a good degree of automization in fi
 
 
 
-#Usage
+## **Usage**
 To run the program:
 - open the file "polyfit_global.py" in your editor
 - adjust the config file "polyfit_config.ini", chosing the data you want to fit and the features you prefer
@@ -15,7 +15,10 @@ To run the program:
 The config file must be in the same folder of "polyfit_global.py"
 
 To run a test:
-- write "pytest! test_polyfit_data" on the editor terminal
+
+'''bash
+"pytest! test_polyfit_data" on the editor terminal
+'''
 
 The libraries used in the program are:
 - pandas: to manage and generate DataFrame, useful in the operation of extraction and management of data
