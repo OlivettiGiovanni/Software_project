@@ -111,7 +111,7 @@ def absolute_mean(array):
     return mean_y
 
 
-
+# I use input names which refers to the polyfit_data function to underline the reason behaind fix_null_uncertainties
 def fix_null_uncertainties(mean_y, y, y_err):
     ''' This function requires the average of the absolute y values (use function absolute_y_mean()) mean_y, 
     the array of dependent variable y and thr array of uncertainties on the dependent variable y_err. 
@@ -131,9 +131,9 @@ def fix_null_uncertainties(mean_y, y, y_err):
     for i in numbers:
         if y_err[i] == 0:
             if y[i] != 0: #if the y values is not zero
-                y_err[i] = y[i]/1000000 #the uncertainty is six order of magnitude smaller then the affected y value
+                y_err[i] = float(y[i]/1000000) #the uncertainty is six order of magnitude smaller then the affected y value
             else: #if the y value is zero
-                y_err[i] = mean_y /1000000 #the uncertainty is six order of magnitude smaller than the average y value
+                y_err[i] = float(mean_y /1000000) #the uncertainty is six order of magnitude smaller than the average y value
     if mean_y == 0:
         raise ValueError("all y values are equal to zero") #non meaningful data  
     return y_err
@@ -264,4 +264,22 @@ def polyfit_evaluation(x, par):
     return fitfunc
 
 
-    
+
+def polyfit_global(filepath, header1, header2, header3, degree):
+    ''' This function requires four strings containing the filepath of a .csv file and the headers
+    of three columns we want to extract in a dataframe, containing respectively the indipendent variable x, 
+    the dependent variable y and uncertainties on the dependent variable y_err. The fifth input required is
+    an integer specifing the degree of the polynomial used to fit the unkown function y = f(x), using
+    y_err as weight for the least square fitting method. 
+    The coefficients of the fitting paramater, together with the estimated error (square root of the diagonal 
+    elements of the covariance matrix) are returned. 
+    The function returns also the new y values resulting from the evaluation of the polynomial defined by
+    the fitting coefficients in the array of the indipendent variables x and the dataframe containing the
+    data manipulated by array_prep() function.'''
+    dataframe = array_prep(filepath, header1, header2, header3)
+    fit_par = polyfit_data(dataframe, header1, header2, header3, degree)
+    x = array_extraction(dataframe)[0]
+    coefficients = par_and_err_extraction(fit_par)[0]
+    errors = par_and_err_extraction(fit_par)[1]
+    fitfunc = polyfit_evaluation(x, coefficients)
+    return coefficients, errors, fitfunc, dataframe
