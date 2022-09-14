@@ -1,6 +1,6 @@
 # Polynomial fitting of a given degree
 
-#Description
+## **Description**
 The idea is to realize a program that allows a good degree of automization in fitting and plotting experimental data in a personalized way. The program can be useful for fast and preliminary data analysis, but also for the production of complete simple plots that can be shown in a daily report. The personalization regards the choice of the degree of the fitting polynomial and in the specification for the plot features (scale, x and y caption, title, legenda, gird, uncertainty caps etc..). Intermeadiate functions are useful to extract data from a csv file, perform some basic manipulations or extract variables as arrays from pandas dataframe.
 
 
