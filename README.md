@@ -1,5 +1,38 @@
-# Software_project
-The idea is to realize a program that allows a good degree of automization in fitting and plotting experimental data in a personalized way. The program can be useful for fast and preliminary data analysis, but also for the production of complete simple plots that can be shown in a daily report. The personalization regards the choice of the degree of the fitting polynomial (degree = 2 if we need a simple linear fit) and in the specification for the plot features (scale, x and y caption, title, legenda, gird, uncertainty caps etc..). Intermeadiate functions are useful to extract data from a csv file, do some basic manipulations or extract variables as arrays from pandas dataframe.
+# Polynomial fitting of a given degree
+
+#Description
+The idea is to realize a program that allows a good degree of automization in fitting and plotting experimental data in a personalized way. The program can be useful for fast and preliminary data analysis, but also for the production of complete simple plots that can be shown in a daily report. The personalization regards the choice of the degree of the fitting polynomial and in the specification for the plot features (scale, x and y caption, title, legenda, gird, uncertainty caps etc..). Intermeadiate functions are useful to extract data from a csv file, perform some basic manipulations or extract variables as arrays from pandas dataframe.
+
+
+
+
+#Usage
+To run the program:
+- open the file "polyfit_global.py" in your editor
+- adjust the config file "polyfit_config.ini", chosing the data you want to fit and the features you prefer
+- run "polyfit_global.py": the variables and the plot will appear in your editor
+
+The config file must be in the same folder of "polyfit_global.py"
+
+To run a test:
+- write "pytest! test_polyfit_data" on the editor terminal
+
+The libraries used in the program are:
+- pandas: to manage and generate DataFrame, useful in the operation of extraction and management of data
+- numpy: to work with np.polyfit function and use multidimensional arrays structure 
+- math: to check for NaN or infinte values that can raise ValueError during the execution
+- matplotlib: to personalize the plot
+- configparser: to use the config file as a reference input
+- 
+The libraries used for the testing activity are:
+- pytest: to check the correct raise of error for given input variables
+- hypothesis: to find edge cases in the proposed unit tests
+- statistics: to determine the average of the element of an array
+
+
+
+
+#Operations and cases
 
 The data to be fitted are taken from a .csv file and are identified through the headline of each correspondent column in the .csv file. 
 
@@ -29,14 +62,7 @@ During the execution:
 - errors are computed as square root of the diagonal element of the coovariance matrix
 - the plotting function is recalled and user input from terminal are required to personalize the plot (or eventually keep the default one)
 
+#Further improvements
 Further improvements can be realized, expecially in the personalization of the interface from which you can select the desired features for the final plot (now it's simply the command line). A more general function will be achieved allowing for non-polynomial fitting (ex: exponential, logairthmic, Gaussian, Lorentzian) and increasing the number of information (ex: goodnes of the fit).
 
-The used libraries are:
-- pandas: to manage and generate DataFrame, useful in the operation of extraction and management of data
-- numpy: to work with np.polyfit function and use multidimensional arrays structure 
-- math: to check for NaN or infinte values that can raise ValueError during the execution
-- statistics: to determine the average y values, needed in specific conditions
-+
-the libraries used for the testing activity are:
-- pytest: to check the correct raise of error for given input variables
-- hypothesis: to find edge cases in the proposed unit tests
+
