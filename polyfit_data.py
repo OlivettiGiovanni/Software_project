@@ -121,11 +121,12 @@ def fix_null_uncertainties(mean_y, y, y_err):
     The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
     to zero the dataset is not meaningful'''
     #be sure the y and y_err arrays have the same length, otherwise the function might not work as expected
-    check_length(y, y_err)
     n = len(y_err) # determine the length of the y_err array
     # define a list of indices which labes each element of y_err
     domain = range(n)
     numbers = list(domain)
+    ausilio = np.array(numbers)
+    check_length(ausilio, y, y_err)
     # check if there are null uncertainties and substitute them
     for i in numbers:
         if y_err[i] == 0:
@@ -147,9 +148,13 @@ def fix_null_uncertainties(mean_y, y, y_err):
          
 # think againa and checks what is sorting, THE DESCRIPTION OF THE FUCNTION IS NOT CORRECT!
 def array_sort(array1, array2, array3):
-    '''  This function requires three arrays as inputs. The function puts the three arrays
-    in a matrix and sort the rows in ascending order basing on the first column value. The function 
-    then returns the three ordered arrays.'''
+    '''  This function requires three arrays as inputs. The function builds a matrix whose
+    rows are the three arrays. Then, the first row is sorted following an ascending order and
+    the second and thrird row are sorted as a conseguence. The result is a matrix whose columns
+    are equal to the initial one, but in a different order. If the element in position 0 of two
+    columns is the same (so the first row has two identical element), the columns are ordered 
+    looking at their element in position 1, and so on... 
+    The function then returns the three ordered arrays.'''
     check_length(array1, array2, array3)
     # let's put out data into a matrix in order to sort them 
     inputs = np.vstack((array1, array2, array3))
@@ -175,25 +180,17 @@ def check_x_values(x_sorted):
 
 
 
-
-def create_dataframe(array1, array2, array3, header1, header2, header3):
-    ''' This function requires repectively the arrays in which the independent variable x,
-    the dependent variable y and the uncertainties on the dependent variable y_err are stored. 
-    This arrey must have been sorted by the function sort_x(). The function store the three arrays
-    in a pandas dataframe, associating header1 to x, header2 to y and header 3 to y_err. The final 
-    pandas dataframe is returned by the function'''
-    a_1 = pd.Series(array1)
-    a_2 = pd.Series(array2)
-    a_3 = pd.Series(array3)
-    frame = {header1: a_1, header2:a_2, header3:a_3}
-    result = pd.DataFrame(frame)
-    return result
-
-
-
-
-
 def array_prep(file_path, header1, header2, header3):
+    '''  This functions requires as input four strings containing the filepath of a .csv file
+    and the header respectively of the indipendent variable x, dependent variable y and uncertainity
+    on the dependent variable y_err. The functions carries out, in order, the following operation: checks
+    if the inputs are strings, loads the .csv columsn into a dataframe and extract the three corresponding arrays. 
+    Then it checks if all the arrays element are not NaN, if the arrays have the same length and if y_err array
+    has not negative values. Then it substitute each element that is zero in y_err array followinf the cruiteria
+    of fix_null_uncertainties() function. The data are then sorted following array_sort() function criteria and
+    the function check that the x array does not have any identical element. The three arrays are then organized 
+    again in a dataframe which is the return of the function. For more information look at the single function
+    documentation.'''
     check_string(file_path)
     check_string(header1)
     check_string(header2)
@@ -211,16 +208,11 @@ def array_prep(file_path, header1, header2, header3):
     mean_y = absolute_mean(y)
     y_err = fix_null_uncertainties(mean_y, y, y_err)
     data_sorted = array_sort(x,y,y_err)
-    data = array_extraction(data_table, header1, header2, header3)
     x_sorted = data_sorted[0]
-    y_sorted = data_sorted[1]
-    y_err_sorted = data_sorted[2]   
     check_x_values(x_sorted)
-    data_corrected = create_dataframe(x_sorted, y_sorted, y_err_sorted, header1, header2, header3)
+    data_corrected = pd.DataFrame({header1: data_sorted[0], header2: data_sorted[1], header3: data_sorted[2]})
     return data_corrected
 
-# IS IT WORTH TO DEFINE A PROPER FUNCTION THAT EXECUTE IN A PRECISE ORDER ALL THE PREVIOUS FUNCTIONS?
-# for me yes, beacause I might need these operations outside the fitting function...
 
 
 
