@@ -20,7 +20,7 @@ The config file must be in the same folder of "polyfit_global.py"
 
 To run a test, write on the editor terminal:
 ```bash
-!pytest test_polyfit_data
+!pytest test_polyfit_data.py
 ```
 
 The libraries used in the program are:
