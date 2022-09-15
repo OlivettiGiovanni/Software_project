@@ -8,12 +8,13 @@ The idea is to realize a program that allows a good degree of automization in fi
 
 ## **Usage**
 To run the program:
-- open the file "polyfit_global.py" in your editor
+- open the files "polyfit_global.py", "polyfit_data.py" and "plots_that.py" in your editor
+- write the specification you need in your configuration file
 - write the name of configuration file as argument of parser.read() function 
 ```bash
 parser.read('file_config.ini')
 ```
-- run "polyfit_global.py": the variables and the plot will appear in your editor
+- run all the opened files: the variables and the plot will appear in your editor
 
 The config file must be in the same folder of "polyfit_global.py"
 
