@@ -36,9 +36,10 @@ import statistics
 
 
 # default variables
-x = np.array([1.1, 2.1, 3.1])
-y = np.array([1.1 ,2.1 ,3.1])
-y_err = np.array([1.1 ,2.1 ,3.1])
+# if a variable with more specific features is needed in one of the test function, it is overwritten (inside the test function)
+x = np.array([1., 2., 3.])
+y = np.array([1. ,2. ,3.])
+y_err = np.array([1. ,2. ,3.])
 header1 = "x"
 header2 = "y"
 header3 = "y_err"
@@ -92,7 +93,7 @@ def test_check_length():
     ''' The starting point consist in a three column dataframe whose elements and header are defined as global functions.
     The test function redefines one of the array adding one more element. The test function checks that
     the function check_length() raises an error.'''
-    x = np.array([1.1,2.1,3.1,4.1])
+    x = np.array([1.,2.,3.,4.])
     with pytest.raises(ValueError):
         check_length(x,y,y_err)
 
@@ -101,7 +102,7 @@ def test_check_NaN():
     ''' The starting point consist in a three column dataframe whose elements and header are defined as global functions.
     The test function redefines one of the array substituting one of its element with a NaN value. The test function checks that
     the function check_NaN() raises an error.'''
-    x = np.array([1,2,np.NaN])
+    x = np.array([1.,2.,np.NaN])
     with pytest.raises(ValueError):
         check_NaN(x)
 
@@ -110,7 +111,7 @@ def test_negative_values():
     ''' The starting point consist in a three column dataframe whose elements and header are defined as global functions.
     The test function redefines the y_err array (which stands for the uncertainties array) substituting one of its element
     with a negative value. The test function checks that the function check_negative_values() raises an error.'''
-    y_err = np.array([1.1, 2.1,-3.1])
+    y_err = np.array([1., 2.,-3.])
     with pytest.raises(ValueError):
         check_negative_values(y_err)      
 
@@ -118,7 +119,7 @@ def test_negative_values():
 def test_absolute_mean():
     ''' The test function defines an array whose element are positive values and checks if the absolute_mean() functions
     returns a value equal to the statistical.mean() return.'''
-    array = np.array([2.0,4.0,6.0,8.0])
+    array = np.array([2.,4.,6.,8.])
     assert absolute_mean(array) == statistics.mean(array)
 
 
@@ -135,8 +136,8 @@ def test_null_uncertainties():
     ''' The test function defines an array of zero as uncertainties y_err and an array having non-zero element as 
     dependent variable y. The test function checks if the fix_null_uncertainties() function correctly
     substitute the null uncertainties with the corresponding y values divied by 1000000.'''
-    y_err = np.array([0.0,0.0,0.0])
-    y = np.array([1.1, 2.1, 3.1])
+    y_err = np.array([0.,0.,0.])
+    y = np.array([1., 2., 3.])
     mean_y = absolute_mean(y)
     y_err_fixed = fix_null_uncertainties(mean_y, y, y_err)
     assert y_err_fixed[0] == y[0]/1000000 and y_err_fixed[1] == y[1]/1000000 and y_err_fixed[2] == y[2]/1000000
@@ -149,8 +150,8 @@ def test_null_uncertainties_2():
     with:
     - the corresponding y values divied by 1000000, if the corresponsing y value is different than zero
     - with the absolute mean y value divided by 1000000 if the corresponsing y value is equal to zero.'''
-    y_err = np.array([0.0,0.0,0.0])
-    y = np.array([1.1, 0.0, 3.1])
+    y_err = np.array([0.,0.,0.])
+    y = np.array([1., 0., 3.])
     mean_y = absolute_mean(y)
     y_err_fixed = fix_null_uncertainties(mean_y, y, y_err)
     assert y_err_fixed[0] == y[0]/1000000 and y_err_fixed[1] == mean_y/1000000 and y_err_fixed[2] == y[2]/1000000
@@ -159,8 +160,8 @@ def test_null_uncertainties_2():
 def test_null_uncertainties_3():
     ''' The test function defines two arrays of zeros as uncertainties y_err and dependent variable y. 
     The test dunction checks that the fix_null_uncertainties() function rasies a ValueError.'''
-    y_err = np.array([0.0,0.0,0.0])
-    y = np.array([0.0, 0.0, 0.0])
+    y_err = np.array([0.,0.,0.])
+    y = np.array([0., 0., 0.])
     mean_y = absolute_mean(y)
     with pytest.raises(ValueError):
         fix_null_uncertainties(mean_y, y, y_err)
@@ -226,7 +227,7 @@ def test_array_sort_3():
 def test_check_x_values():
     ''' The test function defines a three element one dimensional array which present two identical elements.
     The test function check that check_x_values() function raises a ValueError'''
-    x = np.array([3.0,1.0,1.0])
+    x = np.array([3.,1.,1.])
     with pytest.raises(ValueError):
         check_x_values(x)
         
@@ -262,7 +263,7 @@ def test_polyfit_data_compatibility(coefficients):
     associated to them, using the dataframe containing the defined x, y and y_err. The test function then realizes
     a compatibility test in order to check if the difference between the hypothesis generated coefficient and the
     one estimated by the fitting function is smaller or equal than the thresold.'''
-    x_test = np.array([1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0])
+    x_test = np.array([1.,2.,3.,4.,5.,6.,7.,8.,9.,10.])
     threshold = 0.01
     # let's built a polynomial basing on the passed coefficients
     pol = np.poly1d(coefficients)

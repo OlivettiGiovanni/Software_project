@@ -14,9 +14,15 @@ from configparser import ConfigParser
 
 
 parser = ConfigParser()
-parser.read('example_3_zero_config.ini')
 
-filepath = parser.get('polyfit_global config', 'filepath')
+
+#### INPUT REQUIRED  #####
+# write the name of the configuration file you want to use, the present one is an example
+parser.read('example_3_zero_config.ini')
+#### INPUT REQUIRED  #####
+
+#extraction of the relevant variables from the configuration file
+filepath = str(parser.get('polyfit_global config', 'filepath'))
 header1 = str(parser.get('polyfit_global config', 'header1'))
 header2 = str(parser.get('polyfit_global config', 'header2'))
 header3 = str(parser.get('polyfit_global config', 'header3'))
@@ -39,12 +45,16 @@ legend_position = parser.get('plots_that config', 'legend_position')
 # and the string containing the headers of their columns
 fitting_info = polyfit_global(filepath, header1, header2, header3, degree)
 
-#extract from the corrected dataframe (return of polyfit_gloabl() function) the x, y and y_err
+#let's extract the fixed data x, y, and y_err
 data = array_extraction(fitting_info[3], header1, header2, header3)
 x = data[0]
 y = data[1]
 y_err = data[2]
+
+#extract the value of the fitting polynomial evaluated in x
 fitfunc = fitting_info[2]
+
+#plots the experimental data vs the fitting curve
 plots_that(x, y, y_err, fitfunc, plot, labelx, lebely, title, grid, capunc, whichplot, legend, legend_data, legend_fit, legend_position)
 
 

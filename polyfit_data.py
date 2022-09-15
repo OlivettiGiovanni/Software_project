@@ -24,8 +24,8 @@ def check_string(string):
 
 def array_load(file_path, header1, header2, header3):
     ''' This function requires four strings containing respectively the name of the csv file
-    and the three headers of the columns you want to extact. The functions loads the columns
-    you want to extract in a pandas dataframe and return it.'''
+    and the three headers of the columns you want to extact from the .csv file. The functions loads the 
+    columns you want to extract in a pandas dataframe and return it.'''
     col_list = [header1, header2, header3]
     table = pd.read_csv(file_path, usecols = col_list)
     return table
@@ -36,7 +36,7 @@ def array_load(file_path, header1, header2, header3):
 def array_extraction(dataframe, header1, header2, header3):
     ''' This function requires a pandas dataframe in which the data are stored and three strings
     corresponding to the headers of the columns of interest. The function convert each column in 
-    an array and retursn the arrays with the same order of the given headers'''
+    an array and retursn the arrays in the same order of the given headers'''
     array1 = np.array(dataframe[header1])
     array2 = np.array(dataframe[header2])
     array3 = np.array(dataframe[header3])
@@ -51,12 +51,12 @@ def check_length(array1, array2, array3):
     n_1 = len(array1)
     n_2 = len(array2)
     n_3 = len(array3)
-    # let's check if the number of element of each input arrays is equal
     if n_1 != n_2 or n_1 != n_3 or n_2 != n_3:
         raise ValueError("The three input vectors do not have the same length")
    
 
     
+
 def check_NaN(array):
     ''' This function requires an array as input. The function raises an error if an element of the
     array is not a number.'''
@@ -65,19 +65,21 @@ def check_NaN(array):
     numbers = list(domain)
     for i in numbers:
         if math.isnan(array[i]) == True:
-            raise ValueError("The x element whose index is " + str(i) + " is not a number")
+            raise ValueError("The element of the array whose index is " + str(i) + " is not a number")
 
             
+
  
 def check_negative_values(array):
-    ''' This function requires an array as input. The function raises an error if the any of the element
+    ''' This function requires an array as input. The function raises an error if any of the element
     of the array is negative.'''
     n = len(array)
     domain = range(n)
     numbers = list(domain)
     for i in numbers:
         if array[i] < 0:
-            raise ValueError("The uncertainty whose index is " + str(i) + " is negative")
+            raise ValueError("The element of the array whose index is " + str(i) + " is negative")
+
 
 
 
@@ -94,41 +96,15 @@ def absolute_mean(array):
     return mean_y
 
 
-# I use input names which refers to the polyfit_data function to underline the reason behaind fix_null_uncertainties
-#def fix_null_uncertainties(mean_y, y, y_err):
-#    ''' This function requires the average of the absolute y values (use function absolute_y_mean()) mean_y, 
-#    the array of dependent variable y and the array of uncertainties on the dependent variable y_err. 
-#    The length of the arrays has to be equal and it is checked by check_length(). The function substitute the 
-#    null uncertainties with the corresponding y value divided by 10^6 or, if the latter is also null, with
-#    mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
-#    The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
-#    to zero the dataset is not meaningful'''
-#    #be sure the y and y_err arrays have the same length, otherwise the function might not work as expected
-#    n = len(y_err) # determine the length of the y_err array
-#    # define a list of indices which labes each element of y_err
-#    domain = range(n)
-#    numbers = list(domain)
-#    ausilio = np.array(numbers)
-#    check_length(ausilio, y, y_err)
-#    # check if there are null uncertainties and substitute them
-#    for i in numbers:
-#        if y_err[i] == 0:
-#            if y[i] != 0: #if the y values is not zero
-#                y_err[i] = float(y[i]/1000000) #the uncertainty is six order of magnitude smaller then the affected y value
-#            else: #if the y value is zero
-#                y_err[i] = float(mean_y /1000000) #the uncertainty is six order of magnitude smaller than the average y value
-#    if mean_y == 0:
-#        raise ValueError("all y values are equal to zero") #non meaningful data  
-#    return y_err
 
 
-# I use input names which refers to the polyfit_data function to underline the reason behaind fix_null_uncertainties
+# I use input names which refers to the polyfit_data function to underline the reason behind fix_null_uncertainties
 def fix_null_uncertainties(mean_y, y, y_err):
-    ''' This function requires the average of the absolute y values (use function absolute_y_mean()) mean_y, 
-    the array of dependent variable y and the array of uncertainties on the dependent variable y_err. 
-    The length of the arrays has to be equal and it is checked by check_length(). The function substitute the 
-    null uncertainties with the corresponding y value divided by 10^6 or, if the latter is also null, with
-    mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
+    ''' This function requires the average of the absolute values (use function absolute_y_mean()) of the dependent
+    variable y, namely mean_y, the array of dependent variable y and the array of uncertainties on the dependent 
+    variable y_err. The length of the arrays has to be equal and it is checked by check_length(). The function 
+    substitute the null uncertainties with the corresponding y value divided by 10^6 or, if the latter is also 
+    null, with mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
     The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
     to zero the dataset is not meaningful'''
     n = len(y_err) 
@@ -140,11 +116,10 @@ def fix_null_uncertainties(mean_y, y, y_err):
         if y_err[i] == 0 and y[i]!=0:
             y_err[i] = float(abs(y[i]))/1000000 #the uncertainty is six order of magnitude smaller then the affected y value
         if y_err[i] == 0 and y[i] == 0:
-            y_err[i] = float(mean_y) /1000000 #the uncertainty is six order of magnitude smaller than the average y value
+            y_err[i] = float(mean_y) /1000000 #the uncertainty is six order of magnitude smaller than the average y absolute value
     if mean_y == 0:
         raise ValueError("all y values are equal to zero, the data are not meaningful") #non meaningful data  
     return y_err
-
 
 
 
@@ -158,11 +133,13 @@ def array_sort(array1, array2, array3):
     first row has two identical element), the columns are ordered looking at their element in 
     position 1, and so on... The function then returns the three ordered arrays in a matrix'''
     check_length(array1, array2, array3)
-    # let's put out data into a matrix in order to sort them 
     inputs = np.vstack((array1, array2, array3))
-    # let's sort our data according to the first row (x values)
     inputs_sort = np.array(list(zip(*sorted(zip(*inputs)))))
-    # let's extract the now sorted arrays
+    #Working from inside out, this expression does:
+    #zip: to iterate the transposed of the matrix (rows become columns and vice versa)
+    #sorted: sorts the transposed matrix. No need to provide a custom key, the sorting will be by the first element (column, which is a row in the original matrix).
+    #zip: to iterate the transposed of the transposed matrix, i.e. transposing it back to its original shape
+    #list to turn the iterable to a list (a matrix)
     return inputs_sort
 
 
@@ -177,7 +154,6 @@ def check_x_values(array):
     for i in numbers:
         if array[i] == array[i+1]: 
             raise ValueError("Two x values are identical, the data cannot be represented with a function")
-#must be implemented in a different way in order to advise for the position of the two identical x
 
 
 
@@ -220,7 +196,6 @@ def array_prep(file_path, header1, header2, header3):
 
 
 
-
 def polyfit_data(dataframe, header1, header2, header3, degree):
     ''' This function requires repectively the pandas dataframe in which the data are stored, the header of the
     independent variable x, the header of the dependent variable y, the header of the uncertainties of the 
@@ -233,7 +208,6 @@ def polyfit_data(dataframe, header1, header2, header3, degree):
     y_err = data[2]
     result = np.polyfit(x,y,degree,w=(y_err)**(-1), full = False, cov = True)
     return result
-
 
 
 
@@ -268,6 +242,7 @@ def polyfit_evaluation(x, par):
 
 
 
+
 def polyfit_global(filepath, header1, header2, header3, degree):
     ''' This function requires four strings containing the filepath of a .csv file and the headers
     of three columns we want to extract containing respectively the indipendent variable x, 
@@ -277,9 +252,9 @@ def polyfit_global(filepath, header1, header2, header3, degree):
     are checked or modified by array_perp() function in order to prepare the data. 
     The function is fitted through a polynomial with the specified degree using (y_err)^-1 as weights for
     the least swaure fitting method.
-    The coefficients of the fitting paramater, together with the estimated error (square root of the diagonal 
+    The coefficients of the fitting parameter, together with the estimated error (square root of the diagonal 
     elements of the covariance matrix) are returned. 
-    The function returns also the new y values resulting from the evaluation of the polynomial defined by
+    The function returns also the y values resulting from the evaluation of the polynomial defined by
     the fitting coefficients in the array of the indipendent variables x and the dataframe containing the
     data manipulated by array_prep() function.'''
     dataframe = array_prep(filepath, header1, header2, header3)
