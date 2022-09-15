@@ -10,14 +10,6 @@ import numpy as np
 import math
 import csv
     
-
-
-
-
-
-# TO DO LIST
-# ADJUST THE FUNCTION DESCRIPTION IN ORDER TO NOT TALK ABOUT X, Y AND Y-ERR
-# THE SINGLE FUNCTION MIGHT BE USED IN THE FUTURE FOR ANOTHER PROGRAM!
  
     
  
@@ -32,11 +24,9 @@ def check_string(string):
 
 def array_load(file_path, header1, header2, header3):
     ''' This function requires four strings containing respectively the name of the csv file
-    and three headers of the columns you want to extact. The functions loads the columns
-    you want to extract in a pandas dataframe'''
-    # creating the list of headlines
+    and the three headers of the columns you want to extact. The functions loads the columns
+    you want to extract in a pandas dataframe and return it.'''
     col_list = [header1, header2, header3]
-    # read from a csv file (file_path) the data in the columns having the chosen headlines
     table = pd.read_csv(file_path, usecols = col_list)
     return table
 
@@ -46,7 +36,7 @@ def array_load(file_path, header1, header2, header3):
 def array_extraction(dataframe, header1, header2, header3):
     ''' This function requires a pandas dataframe in which the data are stored and three strings
     corresponding to the headers of the columns of interest. The function convert each column in 
-    an array and retursn the array following the order of the inserted headers'''
+    an array and retursn the arrays with the same order of the given headers'''
     array1 = np.array(dataframe[header1])
     array2 = np.array(dataframe[header2])
     array3 = np.array(dataframe[header3])
@@ -70,40 +60,33 @@ def check_length(array1, array2, array3):
 def check_NaN(array):
     ''' This function requires an array as input. The function raises an error if an element of the
     array is not a number.'''
-    # determine the length of the x array
     n_a = len(array)
-    # define a list of indices which labes each element of x
     domain = range(n_a)
     numbers = list(domain)
-    #check if some elements of the x, y and y_err variables are NaN
     for i in numbers:
         if math.isnan(array[i]) == True:
-            raise ValueError("The x element whose index is " + str(i) + ", is not a number")
+            raise ValueError("The x element whose index is " + str(i) + " is not a number")
 
             
  
 def check_negative_values(array):
-    ''' This function requires an array as input. The function raises an error if the uncertainties are negative'''
-    # determine the length of the y_err array
+    ''' This function requires an array as input. The function raises an error if the any of the element
+    of the array is negative.'''
     n = len(array)
-    # define a list of indices which labes each element of y_err
     domain = range(n)
     numbers = list(domain)
-    #check if there are negative uncertainties
     for i in numbers:
         if array[i] < 0:
-            raise ValueError("The uncertainty whose index is" + str(i) + "is negative")
+            raise ValueError("The uncertainty whose index is " + str(i) + " is negative")
 
 
 
 def absolute_mean(array):
-    ''' This function requires an array as input. The function returns
-    the average of the absolute value of the array elements'''
-    n = len(array) # determine the length of the y_err array
-    # define a list of indices which labes each element of y_err
+    ''' This function requires an array as input. The function returns the average of the absolute value 
+    of the array elements.'''
+    n = len(array) 
     domain = range(n)
     numbers = list(domain)
-    #calculate the average of the absolute y values (used after)
     mean_y = 0
     for i in numbers:
         mean_y = mean_y + abs(array[i])
@@ -112,49 +95,68 @@ def absolute_mean(array):
 
 
 # I use input names which refers to the polyfit_data function to underline the reason behaind fix_null_uncertainties
+#def fix_null_uncertainties(mean_y, y, y_err):
+#    ''' This function requires the average of the absolute y values (use function absolute_y_mean()) mean_y, 
+#    the array of dependent variable y and the array of uncertainties on the dependent variable y_err. 
+#    The length of the arrays has to be equal and it is checked by check_length(). The function substitute the 
+#    null uncertainties with the corresponding y value divided by 10^6 or, if the latter is also null, with
+#    mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
+#    The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
+#    to zero the dataset is not meaningful'''
+#    #be sure the y and y_err arrays have the same length, otherwise the function might not work as expected
+#    n = len(y_err) # determine the length of the y_err array
+#    # define a list of indices which labes each element of y_err
+#    domain = range(n)
+#    numbers = list(domain)
+#    ausilio = np.array(numbers)
+#    check_length(ausilio, y, y_err)
+#    # check if there are null uncertainties and substitute them
+#    for i in numbers:
+#        if y_err[i] == 0:
+#            if y[i] != 0: #if the y values is not zero
+#                y_err[i] = float(y[i]/1000000) #the uncertainty is six order of magnitude smaller then the affected y value
+#            else: #if the y value is zero
+#                y_err[i] = float(mean_y /1000000) #the uncertainty is six order of magnitude smaller than the average y value
+#    if mean_y == 0:
+#        raise ValueError("all y values are equal to zero") #non meaningful data  
+#    return y_err
+
+
+# I use input names which refers to the polyfit_data function to underline the reason behaind fix_null_uncertainties
 def fix_null_uncertainties(mean_y, y, y_err):
     ''' This function requires the average of the absolute y values (use function absolute_y_mean()) mean_y, 
-    the array of dependent variable y and thr array of uncertainties on the dependent variable y_err. 
-    The length of the arrays has to be equal (use function check_length()). The function substitute the 
+    the array of dependent variable y and the array of uncertainties on the dependent variable y_err. 
+    The length of the arrays has to be equal and it is checked by check_length(). The function substitute the 
     null uncertainties with the corresponding y value divided by 10^6 or, if the latter is also null, with
     mean_y / 10^6. The return is an array containing the now corrected uncertainties y_err.
     The function raises an error if mean_y is equal to zero beacuse if all the y values are euqal 
     to zero the dataset is not meaningful'''
-    #be sure the y and y_err arrays have the same length, otherwise the function might not work as expected
-    n = len(y_err) # determine the length of the y_err array
-    # define a list of indices which labes each element of y_err
+    n = len(y_err) 
     domain = range(n)
     numbers = list(domain)
     ausilio = np.array(numbers)
     check_length(ausilio, y, y_err)
-    # check if there are null uncertainties and substitute them
     for i in numbers:
-        if y_err[i] == 0:
-            if y[i] != 0: #if the y values is not zero
-                y_err[i] = float(y[i]/1000000) #the uncertainty is six order of magnitude smaller then the affected y value
-            else: #if the y value is zero
-                y_err[i] = float(mean_y /1000000) #the uncertainty is six order of magnitude smaller than the average y value
+        if y_err[i] == 0 and y[i]!=0:
+            y_err[i] = float(abs(y[i]))/1000000 #the uncertainty is six order of magnitude smaller then the affected y value
+        if y_err[i] == 0 and y[i] == 0:
+            y_err[i] = float(mean_y) /1000000 #the uncertainty is six order of magnitude smaller than the average y value
     if mean_y == 0:
-        raise ValueError("all y values are equal to zero") #non meaningful data  
+        raise ValueError("all y values are equal to zero, the data are not meaningful") #non meaningful data  
     return y_err
 
-# DO I HAVE TO PUT THERE THE CHECK-LENTGH() FUNCTION? MAYBE...
-# BEACUSE WHAT HAPPEND IF THEY DON'T HAVE THE SAME LENGTH...
 
-# IT SEEMS I CANNOT REDEFINE Y_ERR IN THIS FUNCTION... THIS SEEMS TO HAPPEN WITH GLOBAL VARIABLES,
-# BUT THAT'S NOT A GLOBAL VARIABLE
-   
 
-         
-# think againa and checks what is sorting, THE DESCRIPTION OF THE FUCNTION IS NOT CORRECT!
+
+
 def array_sort(array1, array2, array3):
     '''  This function requires three arrays as inputs. The function builds a matrix whose
     rows are the three arrays. Then, the first row is sorted following an ascending order and
-    the second and thrird row are sorted as a conseguence. The result is a matrix whose columns
-    are equal to the initial one, but in a different order. If the element in position 0 of two
-    columns is the same (so the first row has two identical element), the columns are ordered 
-    looking at their element in position 1, and so on... 
-    The function then returns the three ordered arrays.'''
+    the second and thrird rows are sorted in order to keep the correspondance with the element
+    of the first row. The result is a matrix whose columns are equal to the initial one, 
+    but in a different order. If the element in position 0 of two columns is the same (so the 
+    first row has two identical element), the columns are ordered looking at their element in 
+    position 1, and so on... The function then returns the three ordered arrays in a matrix'''
     check_length(array1, array2, array3)
     # let's put out data into a matrix in order to sort them 
     inputs = np.vstack((array1, array2, array3))
@@ -166,16 +168,17 @@ def array_sort(array1, array2, array3):
 
 
 
-def check_x_values(x_sorted):
-    ''' Requires a sorted array of indipendent variables (use sort_x function). The function
-    raises a ValueError if two neighbouring x elements are equal.'''
-    # let's raise an error if two x values are identical
-    n = len(x_sorted)-1
+def check_x_values(array):
+    ''' Requires a sorted array (use array_sort() function). The function raises a ValueError 
+    if two neighbouring elements of the array are equal.'''
+    n = len(array)-1
     domain = range(n)
     numbers = list(domain)
     for i in numbers:
-        if x_sorted[i] == x_sorted[i+1]: 
-            raise ValueError("Two x values" + str(i) + "and" + str(i+1) + " are identical, the data cannot be represented with a function")
+        if array[i] == array[i+1]: 
+            raise ValueError("Two x values are identical, the data cannot be represented with a function")
+#must be implemented in a different way in order to advise for the position of the two identical x
+
 
 
 
@@ -186,7 +189,7 @@ def array_prep(file_path, header1, header2, header3):
     on the dependent variable y_err. The functions carries out, in order, the following operation: checks
     if the inputs are strings, loads the .csv columsn into a dataframe and extract the three corresponding arrays. 
     Then it checks if all the arrays element are not NaN, if the arrays have the same length and if y_err array
-    has not negative values. Then it substitute each element that is zero in y_err array followinf the cruiteria
+    has not negative values. Then it substitute each element that is zero in y_err array following the criteria
     of fix_null_uncertainties() function. The data are then sorted following array_sort() function criteria and
     the function check that the x array does not have any identical element. The three arrays are then organized 
     again in a dataframe which is the return of the function. For more information look at the single function
@@ -255,8 +258,8 @@ def par_and_err_extraction(result):
 
 def polyfit_evaluation(x, par):
     ''' This function requires two arrays, containing a set of values (indipendent variable x)
-    and a set of coefficients used to define a polynomial. The defined polynomial is evaluated 
-    with respect to x and the resulting polynomial values are returned.'''
+    and a set of coefficients (float). The latter is used to define a polynomial which is evaluated 
+    with respect to x. The resulting polynomial values are returned by the function.'''
     # let's define a polynomial starting from the fitting parameters
     pol_fit = np.poly1d(par)
     # let's compute the y values through the evaluation of the above polynomial in the x array
@@ -267,10 +270,13 @@ def polyfit_evaluation(x, par):
 
 def polyfit_global(filepath, header1, header2, header3, degree):
     ''' This function requires four strings containing the filepath of a .csv file and the headers
-    of three columns we want to extract in a dataframe, containing respectively the indipendent variable x, 
+    of three columns we want to extract containing respectively the indipendent variable x, 
     the dependent variable y and uncertainties on the dependent variable y_err. The fifth input required is
-    an integer specifing the degree of the polynomial used to fit the unkown function y = f(x), using
-    y_err as weight for the least square fitting method. 
+    an integer specifing the degree of the polynomial used to fit the unkown function y = f(x)
+    The three columns of the .csv file are extracted in a dataframe and their lentgh, values and proprieties
+    are checked or modified by array_perp() function in order to prepare the data. 
+    The function is fitted through a polynomial with the specified degree using (y_err)^-1 as weights for
+    the least swaure fitting method.
     The coefficients of the fitting paramater, together with the estimated error (square root of the diagonal 
     elements of the covariance matrix) are returned. 
     The function returns also the new y values resulting from the evaluation of the polynomial defined by
@@ -278,7 +284,7 @@ def polyfit_global(filepath, header1, header2, header3, degree):
     data manipulated by array_prep() function.'''
     dataframe = array_prep(filepath, header1, header2, header3)
     fit_par = polyfit_data(dataframe, header1, header2, header3, degree)
-    x = array_extraction(dataframe)[0]
+    x = array_extraction(dataframe, header1, header2,header3)[0]
     coefficients = par_and_err_extraction(fit_par)[0]
     errors = par_and_err_extraction(fit_par)[1]
     fitfunc = polyfit_evaluation(x, coefficients)

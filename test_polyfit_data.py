@@ -28,7 +28,6 @@ import pandas as pd
 import pytest
 import hypothesis.strategies as st
 from hypothesis import given
-import csv
 import numpy as np
 from os.path import exists
 from os import remove
