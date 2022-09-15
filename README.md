@@ -9,12 +9,12 @@ The idea is to realize a program that allows a good degree of automization in fi
 ## **Usage**
 To run the program:
 - open the files "polyfit_global.py", "polyfit_data.py" and "plots_that.py" in your editor
-- write the specification you need in your configuration file
-- write the name of configuration file as argument of parser.read() function 
+- write the specification you need in your configuration file which must be in the same folder of the program files
+- write the name of configuration file as argument of parser.read() function in "polyfit_global.py"
 ```bash
 parser.read('file_config.ini')
 ```
-- run all the opened files: the variables and the plot will appear in your editor
+- run first "polyfit_data.py" and "plots_that.py" files to define the functions and then "polyfit_global.py" the : the variables and the plot will appear in your editor
 
 The config file must be in the same folder of "polyfit_global.py"
 
@@ -44,7 +44,7 @@ The repository presents:
 - polyfit_global.py: main progrm in which the input are loaded from a config file and data manipulation, fitting and plotting functions are executed.
 - test_polyfit_data.py: file containing the test functions. 
 - example (folder): contains some simple example, in the form of a .csv file and the corresponding file_config.ini
-- polyfit_config.py: file which can be run to create the .ini file
+- polyfit_config.py: file which can be run in the python editor to create the .ini file
 - polyfit_config.ini: example of configuration file with comments explaining each field of interest
 
 
@@ -52,21 +52,18 @@ The repository presents:
 
 ## *Operations performed by the main program, casistics and errors*
 
-The data to be fitted are taken from a .csv file and are identified through the headline of each correspondent column in the .csv file. 
-
-The main function returns: 
-- the y values of the fitting polynomial computed at the indipendent variable values
-- the parameters that characterize the fitting polynomial (fitting parameters)
-- the errors on the fitting parameters
-Morover the final function print at screen the results.
-The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting parameters and can be displayed in the plot.
-
+The main program file (polyfit_global.py) requires the name of the configuration file.
 The main program uses the config_file.ini to extract the required inputs of polyfit_global() and plots_that() functions.
 
 The polyfit_global() function requires:
 - the name of the .csv file
 - the header of each column in a precise order (indipendent variable x, dipendent variable y and uncertainty on the dipendent variable y, namely y_err) 
 - the degree chosen for the fitting polynomial. 
+
+The polyfit_global() function returnes:
+- the fitting coefficients and the related errors
+- the polynomial function values when evaluated in the x array
+- the dataframe of the corrected data
 
 The plots_that() functions requires different boolean variable (to select the features the plot will have) and strings to label the axis, the legenda or the plot itslef.
 
@@ -82,7 +79,7 @@ During the execution:
 - the x array is sorted gollowing an ascending order and the y and y_err arrays are sorted in order to keep the correspondace with the x element.
 - the program raises an error if two x elements are identical (in case of hysteresis cycles, you need to divide the forward and backward ramp)
 - the data are extracted from the dataframe and placed in proper array variables
-- the fit with a polynomial of order n (input degree) is performed and the fitting coefficients are given. From the coefficient is possible to calculate the values of the fitting curve in the given x array
+- the fit with a polynomial of order n (input degree) is performed and the fitting coefficients are given. From the coefficient is possible to calculate the values of the fitting curve in the given x array. The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting parameters and can be displayed in the plot.
 - errors are computed as square root of the diagonal element of the coovariance matrix
 - the program plots the data vs the fitting curve in a personalized way depending on the input given with the config_file.ini
 
