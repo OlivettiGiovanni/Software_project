@@ -16,7 +16,7 @@ The config file must be in the same folder of "polyfit_global.py"
 
 To run a test, write on the editor terminal:
 ```bash
-pytest! test_polyfit_data
+!pytest test_polyfit_data
 ```
 
 The libraries used in the program are:
@@ -33,11 +33,21 @@ The libraries used for the testing activity are:
 
 
 
+## *Repository content**
+The repository presents:
+- polyfit_data.py: file containing all the function regarding data manipulation and fitting used by the main program
+- plots_that.py: file containing the plotting function
+- polyfit_global.py: main progrm in which the input are loaded from a config file and data manipulation, fitting and plotting functions are executed.
+- test_polyfit_data.py: file containing the test functions. 
+- example (folder): contains some simple example, in the form of a .csv file and the corresponding file_config.ini
+- polyfit_config.py: file which can be run to create the .ini file
 
-## **Operations performed, casistics and errors*
+
+
+
+## **Operations performed by the main program, casistics and errors*
 
 The data to be fitted are taken from a .csv file and are identified through the headline of each correspondent column in the .csv file. 
-
 
 The main function returns: 
 - the y values of the fitting polynomial computed at the indipendent variable values
@@ -47,7 +57,8 @@ Morover the final function print at screen the results.
 The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting parameters and can be displayed in the plot.
 
 The main program uses the config_file.ini to extract the required inputs of polyfit_global() and plots_that() functions.
-The polyfit_global() fucntion requires:
+
+The polyfit_global() function requires:
 - the name of the .csv file
 - the header of each column in a precise order (indipendent variable x, dipendent variable y and uncertainty on the dipendent variable y, namely y_err) 
 - the degree chosen for the fitting polynomial. 
