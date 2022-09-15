@@ -74,7 +74,7 @@ During the execution:
 - if some uncertainties are zero, they are substituted by negligible uncertainties, specifically:
     - the zero uncertainty is substituded by the absolute value of the corresponding y divided by 10^6
     - if also the corresponding y value is equal to zero, the zero uncertainty is substituded by the average of the absolute y values divided by 10^6
-   NOTE: if the average of the absolute y values is zero, the program raises an error because the data are considered meaningless
+NOTE: if the average of the absolute y values is zero, the program raises an error because the data are considered meaningless
 - if some uncertainties are negative it raises an error.
 - the x array is sorted following an ascending order and the y and y_err arrays are sorted in order to keep the correspondace with the x element.
 - the program raises an error if two x elements are identical (in case of hysteresis cycles, you need to divide the forward and backward ramp)
