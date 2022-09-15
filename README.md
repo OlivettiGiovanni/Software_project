@@ -33,7 +33,7 @@ The libraries used for the testing activity are:
 
 
 
-## *Repository content**
+## *Repository content*
 The repository presents:
 - polyfit_data.py: file containing all the function regarding data manipulation and fitting used by the main program
 - plots_that.py: file containing the plotting function
@@ -45,7 +45,7 @@ The repository presents:
 
 
 
-## **Operations performed by the main program, casistics and errors*
+## *Operations performed by the main program, casistics and errors*
 
 The data to be fitted are taken from a .csv file and are identified through the headline of each correspondent column in the .csv file. 
 
