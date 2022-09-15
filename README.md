@@ -65,30 +65,30 @@ The polyfit_global() function returnes:
 - the polynomial function values when evaluated in the x array
 - the dataframe of the corrected data
 
-The plots_that() functions requires different boolean variable (to select the features the plot will have) and strings to label the axis, the legenda or the plot itslef.
+The plots_that() functions requires different boolean variable (to select the features the plot will have) and strings to label the axis, the legenda or the plot itslef and plots the data versus fitting curve. 
 
 During the execution:
 - the data are extracted from the .csv file specifying their headers (the filneame and the headers have to be strings) and located in a proper DataFrame
 - if the lenght of the input datasets (x, y and y_err) is not equal, it raises an error.
-- if there an element of one of the array is a NaN, it raises an error.
+- if an element of one of the array is a NaN, it raises an error.
 - if some uncertainties are zero, they are substituted by negligible uncertainties, specifically:
     - the zero uncertainty is substituded by the absolute value of the corresponding y divided by 10^6
     - if also the corresponding y value is equal to zero, the zero uncertainty is substituded by the average of the absolute y values divided by 10^6
    NOTE: if the average of the absolute y values is zero, the program raises an error because the data are considered meaningless
 - if some uncertainties are negative it raises an error.
-- the x array is sorted gollowing an ascending order and the y and y_err arrays are sorted in order to keep the correspondace with the x element.
+- the x array is sorted following an ascending order and the y and y_err arrays are sorted in order to keep the correspondace with the x element.
 - the program raises an error if two x elements are identical (in case of hysteresis cycles, you need to divide the forward and backward ramp)
 - the data are extracted from the dataframe and placed in proper array variables
-- the fit with a polynomial of order n (input degree) is performed and the fitting coefficients are given. From the coefficient is possible to calculate the values of the fitting curve in the given x array. The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting parameters and can be displayed in the plot.
-- errors are computed as square root of the diagonal element of the coovariance matrix
+- the fit with a polynomial of order n (input degree) is performed and the fitting coefficients are given. From the coefficient is possible to calculate the values of the fitting curve in the given x array. The uncertainties y_err are used to weight the contribution of each y values and contributes to the errors on the fitting coefficients and can be displayed in the plot.
+- the errors of the coefficients are computed as square root of the diagonal element of the covariance matrix
 - the program plots the data vs the fitting curve in a personalized way depending on the input given with the config_file.ini
 
 
 ## *Further improvements*
 Further improvements can be realized:
 - transform the program in a script that can be run from the terminal
-- add different type of fitting fucntion (Gaussian, exponential, Lorentian)
-- increase the number of information
+- add different type of fitting functions (Gaussian, exponential, Lorentian)
+- increase the number of information given by the fit
 - find a more physical way to substitute the null uncertainties 
 
 
