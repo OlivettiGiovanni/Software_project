@@ -29,7 +29,7 @@ The libraries used in the program are:
 - math: to check for NaN or infinte values that can raise ValueError during the execution
 - matplotlib: to personalize the plot
 - configparser: to use the config file as a reference input
-- 
+
 The libraries used for the testing activity are:
 - pytest: to check the correct raise of error for given input variables
 - hypothesis: to find edge cases in the proposed unit tests
