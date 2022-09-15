@@ -45,6 +45,7 @@ The repository presents:
 - test_polyfit_data.py: file containing the test functions. 
 - example (folder): contains some simple example, in the form of a .csv file and the corresponding file_config.ini
 - polyfit_config.py: file which can be run to create the .ini file
+- polyfit_config.ini: example of configuration file with comments explaining each field of interest
 
 
 
